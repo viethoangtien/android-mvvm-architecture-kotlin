@@ -1,4 +1,4 @@
-package com.soict.hoangviet.baseproject.utils
+package com.soict.hoangviet.mvvmarchitecture.utils
 
 import android.app.Activity
 import android.content.Intent

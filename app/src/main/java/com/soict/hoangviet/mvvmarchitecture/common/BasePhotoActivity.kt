@@ -6,7 +6,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Environment
 import androidx.appcompat.app.AppCompatActivity
-import com.soict.hoangviet.baseproject.utils.PermissionUtil
+import com.soict.hoangviet.mvvmarchitecture.utils.PermissionUtil
 import java.io.File
 import android.provider.MediaStore
 import androidx.core.content.FileProvider
