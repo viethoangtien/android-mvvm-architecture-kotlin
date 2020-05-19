@@ -5,6 +5,7 @@ import com.soict.hoangviet.baseproject.data.network.ApiService
 import com.soict.hoangviet.baseproject.data.network.api.NetworkConnectionInterceptor
 import com.soict.hoangviet.mvvmarchitecture.BuildConfig
 import com.soict.hoangviet.mvvmarchitecture.application.BaseApplication
+import com.soict.hoangviet.mvvmarchitecture.data.network.api.LanguageInterceptor
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
@@ -32,7 +33,9 @@ class NetworkModule {
                 .method(original.method(), original.body())
                 .build()
             chain.proceed(request)
-        }.addInterceptor(NetworkConnectionInterceptor(BaseApplication.instance))
+        }
+            .addInterceptor(NetworkConnectionInterceptor(BaseApplication.instance))
+            .addInterceptor(LanguageInterceptor())
         if (BuildConfig.DEBUG) {
             mOkHttpClientBuilder?.let {
                 if (!it.interceptors().contains(logging)) {

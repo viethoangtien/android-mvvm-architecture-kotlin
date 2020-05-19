@@ -5,17 +5,26 @@ import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 import androidx.lifecycle.ViewModelProvider;
+
+import com.soict.hoangviet.baseproject.common.BaseLoadingDialog;
+import com.soict.hoangviet.baseproject.data.network.response.ListResponse;
+import com.soict.hoangviet.baseproject.data.network.response.ObjectResponse;
+import com.soict.hoangviet.baseproject.utils.Define;
 import com.soict.hoangviet.mvvmarchitecture.custom.ViewController;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import javax.inject.Inject;
+
 import dagger.android.support.DaggerFragment;
 
 public abstract class BaseFragment<T extends ViewDataBinding> extends DaggerFragment {
@@ -24,6 +33,7 @@ public abstract class BaseFragment<T extends ViewDataBinding> extends DaggerFrag
     protected ViewModelProvider.Factory viewModelFactory;
 
     protected T binding;
+    protected BaseLoadingDialog baseLoadingDialog;
 
     /**
      * The ViewController for control fragments in an activity
@@ -49,7 +59,7 @@ public abstract class BaseFragment<T extends ViewDataBinding> extends DaggerFrag
     }
 
     private void initProgressDialog() {
-
+        baseLoadingDialog = BaseLoadingDialog.getInstance(requireContext());
     }
 
     protected abstract int getLayoutId();
@@ -90,50 +100,50 @@ public abstract class BaseFragment<T extends ViewDataBinding> extends DaggerFrag
         setArguments(bundle);
     }
 
-//    protected void handleListResponse(ListResponse<?> response) {
-//        switch (response.getType()) {
-//            case Define.ResponseStatus.LOADING:
-//                showLoading();
-//                break;
-//            case Define.ResponseStatus.SUCCESS:
-//                getListResponse(response.getData());
-//                hideLoading();
-//                break;
-//            case Define.ResponseStatus.ERROR:
-//                handleNetworkError(response.getError(), true);
-//                hideLoading();
-//        }
-//    }
-//
-//    protected void handleLoadMoreResponse(ListResponse<?> response, boolean isRefresh, boolean canLoadmore) {
-//        switch (response.getType()) {
-//            case Define.ResponseStatus.LOADING:
-//                showLoading();
-//                break;
-//            case Define.ResponseStatus.SUCCESS:
-//                getListResponse(response.getData(), isRefresh, canLoadmore);
-//                hideLoading();
-//                break;
-//            case Define.ResponseStatus.ERROR:
-//                handleNetworkError(response.getError(), true);
-//                hideLoading();
-//        }
-//    }
-//
-//    protected <U> void handleObjectResponse(ObjectResponse<U> response) {
-//        switch (response.getType()) {
-//            case Define.ResponseStatus.LOADING:
-//                showLoading();
-//                break;
-//            case Define.ResponseStatus.SUCCESS:
-//                hideLoading();
-//                getObjectResponse(response.getData());
-//                break;
-//            case Define.ResponseStatus.ERROR:
-//                hideLoading();
-//                handleNetworkError(response.getError(), true);
-//        }
-//    }
+    protected void handleListResponse(ListResponse<?> response) {
+        switch (response.getType()) {
+            case Define.ResponseStatus.LOADING:
+                showLoading();
+                break;
+            case Define.ResponseStatus.SUCCESS:
+                getListResponse(response.getData());
+                hideLoading();
+                break;
+            case Define.ResponseStatus.ERROR:
+                handleNetworkError(response.getError(), true);
+                hideLoading();
+        }
+    }
+
+    protected void handleLoadMoreResponse(ListResponse<?> response, boolean isRefresh, boolean canLoadmore) {
+        switch (response.getType()) {
+            case Define.ResponseStatus.LOADING:
+                showLoading();
+                break;
+            case Define.ResponseStatus.SUCCESS:
+                getListResponse(response.getData(), isRefresh, canLoadmore);
+                hideLoading();
+                break;
+            case Define.ResponseStatus.ERROR:
+                handleNetworkError(response.getError(), true);
+                hideLoading();
+        }
+    }
+
+    protected <U> void handleObjectResponse(ObjectResponse<U> response) {
+        switch (response.getType()) {
+            case Define.ResponseStatus.LOADING:
+                showLoading();
+                break;
+            case Define.ResponseStatus.SUCCESS:
+                hideLoading();
+                getObjectResponse(response.getData());
+                break;
+            case Define.ResponseStatus.ERROR:
+                hideLoading();
+                handleNetworkError(response.getError(), true);
+        }
+    }
 
     public ViewController getViewController() {
         if (mViewController == null) {
@@ -162,11 +172,11 @@ public abstract class BaseFragment<T extends ViewDataBinding> extends DaggerFrag
     }
 
     protected void showLoading() {
-
+        baseLoadingDialog.showLoadingDialog();
     }
 
     protected void hideLoading() {
-
+        baseLoadingDialog.hideLoadingDialog();
     }
 
     public abstract void backFromAddFragment();

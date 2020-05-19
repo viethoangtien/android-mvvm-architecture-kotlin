@@ -9,6 +9,7 @@ import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
+import com.soict.hoangviet.mvvmarchitecture.R
 import com.soict.hoangviet.mvvmarchitecture.module.GlideApp
 
 /**
@@ -16,9 +17,9 @@ import com.soict.hoangviet.mvvmarchitecture.module.GlideApp
  */
 inline fun <reified T : Any> ImageView.loadImage(
     context: Context,
-    image: T,
-    @DrawableRes placeHolder: Int,
-    @DrawableRes error: Int
+    image: T?,
+    @DrawableRes placeHolder: Int = R.drawable.img_image_default,
+    @DrawableRes error: Int = R.drawable.img_image_default
 ) {
     when (T::class) {
         Int::class.java, String::class.java, Uri::class.java -> {

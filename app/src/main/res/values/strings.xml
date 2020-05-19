@@ -1,4 +1,4 @@
 <resources>
     <string name="app_name">MVVM Architecture</string>
-    <string name="file_provider">base.provider</string>
+    <string name="file_provider">base.mvvm.provider</string>
 </resources>

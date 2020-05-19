@@ -15,7 +15,7 @@ class BaseLoadingDialog private constructor(private var context: Context) {
     //Before initialize instance of class
     //Before class constructor
     companion object {
-        fun getInstance(context: Context) = BaseLoadingDialog(context)
+        @JvmStatic fun getInstance(context: Context) = BaseLoadingDialog(context)
     }
 
     //After primary constructor

@@ -29,11 +29,7 @@ interface ApiService {
     @Headers("Content-Type:application/json")
     fun dynamicUrl(@Url url: String): Call<ObjectResponse<*>>
 
-    @GET("/v1/drivers/{${ApiConstant.RequestParam.ID}}/posts")
+    @GET("/v1/banners")
     @Headers("Content-Type:application/json")
-    fun getListDriver(
-        @Header(ApiConstant.RequestParam.AUTHORIZATION_HEADER) authToken: String, @Path(
-            ApiConstant.RequestParam.ID
-        ) id: Int, @QueryMap data: MutableMap<String, Any>
-    ): Single<ListResponse<TestResponse>>
+    fun getBanner(): Single<ListResponse<TestResponse>>
 }

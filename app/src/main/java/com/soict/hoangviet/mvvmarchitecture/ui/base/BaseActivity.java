@@ -2,21 +2,31 @@ package com.soict.hoangviet.mvvmarchitecture.ui.base;
 
 import android.os.Bundle;
 import android.widget.Toast;
+
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 import androidx.lifecycle.ViewModelProvider;
+
 import com.google.gson.Gson;
 import com.google.gson.JsonParseException;
+import com.soict.hoangviet.baseproject.common.BaseLoadingDialog;
 import com.soict.hoangviet.baseproject.data.network.ApiConstant;
 import com.soict.hoangviet.baseproject.data.network.ApiError;
 import com.soict.hoangviet.baseproject.data.network.api.NetworkConnectionInterceptor;
+import com.soict.hoangviet.baseproject.data.network.response.ListResponse;
+import com.soict.hoangviet.baseproject.data.network.response.ObjectResponse;
+import com.soict.hoangviet.baseproject.utils.Define;
 import com.soict.hoangviet.mvvmarchitecture.custom.ViewController;
+
 import java.io.IOException;
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
+import java.util.List;
+
 import javax.inject.Inject;
+
 import dagger.android.support.DaggerAppCompatActivity;
 import retrofit2.HttpException;
 
@@ -27,16 +37,22 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends DaggerAppC
     @Inject
     protected ViewModelProvider.Factory viewModelFactory;
     protected ViewController mViewController;
+    protected BaseLoadingDialog baseLoadingDialog;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, getLayoutId());
+        initProgressDialog();
         mViewController = new ViewController(getSupportFragmentManager(), getFragmentContainerId());
         initViewModel();
         initView();
         initData();
         initListener();
+    }
+
+    private void initProgressDialog() {
+        baseLoadingDialog = BaseLoadingDialog.getInstance(this);
     }
 
     @Override
@@ -107,6 +123,71 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends DaggerAppC
         } catch (Exception e) {
             throw new Exception();
         }
+    }
+
+    protected void handleListResponse(ListResponse<?> response) {
+        switch (response.getType()) {
+            case Define.ResponseStatus.LOADING:
+                showLoading();
+                break;
+            case Define.ResponseStatus.SUCCESS:
+                getListResponse(response.getData());
+                hideLoading();
+                break;
+            case Define.ResponseStatus.ERROR:
+                handleNetworkError(response.getError(), true);
+                hideLoading();
+        }
+    }
+
+    protected void handleLoadMoreResponse(ListResponse<?> response, boolean isRefresh, boolean canLoadmore) {
+        switch (response.getType()) {
+            case Define.ResponseStatus.LOADING:
+                showLoading();
+                break;
+            case Define.ResponseStatus.SUCCESS:
+                getListResponse(response.getData(), isRefresh, canLoadmore);
+                hideLoading();
+                break;
+            case Define.ResponseStatus.ERROR:
+                handleNetworkError(response.getError(), true);
+                hideLoading();
+        }
+    }
+
+    protected <U> void handleObjectResponse(ObjectResponse<U> response) {
+        switch (response.getType()) {
+            case Define.ResponseStatus.LOADING:
+                showLoading();
+                break;
+            case Define.ResponseStatus.SUCCESS:
+                hideLoading();
+                getObjectResponse(response.getData());
+                break;
+            case Define.ResponseStatus.ERROR:
+                hideLoading();
+                handleNetworkError(response.getError(), true);
+        }
+    }
+
+    protected void getListResponse(List<?> data) {
+
+    }
+
+    protected void getListResponse(List<?> data, boolean isRefresh, boolean canLoadMore) {
+
+    }
+
+    protected <U> void getObjectResponse(U data) {
+
+    }
+
+    protected void showLoading() {
+        baseLoadingDialog.showLoadingDialog();
+    }
+
+    protected void hideLoading() {
+        baseLoadingDialog.hideLoadingDialog();
     }
 
     protected abstract void initViewModel();

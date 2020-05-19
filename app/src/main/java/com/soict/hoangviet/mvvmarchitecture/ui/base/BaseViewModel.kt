@@ -6,9 +6,9 @@ import com.soict.hoangviet.baseproject.data.sharepreference.SharePreference
 import io.reactivex.disposables.CompositeDisposable
 
 open class BaseViewModel(
-    protected var repository: Repository? = null,
+    protected var repository: Repository,
     protected var compositeDisposable: CompositeDisposable = CompositeDisposable(),
-    protected var sharePreference: SharePreference? = null
+    protected var sharePreference: SharePreference
 ) : ViewModel() {
 
     override fun onCleared() {

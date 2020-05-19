@@ -6,6 +6,7 @@ import android.content.Context.CONNECTIVITY_SERVICE
 import android.content.Context.INPUT_METHOD_SERVICE
 import android.content.Intent
 import android.content.Intent.*
+import android.graphics.drawable.Drawable
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import android.net.Uri
@@ -215,4 +216,13 @@ fun Context.setSatatusBarColor(context: WeakReference<Activity>, @ColorRes color
         window?.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
         window?.statusBarColor = context?.get()!!.resources.getColor(colorResId)
     }
+}
+
+@ColorInt
+fun Context.color(@ColorRes res: Int): Int {
+    return ContextCompat.getColor(this, res)
+}
+
+fun Context.drawable(@DrawableRes res: Int): Drawable? {
+    return ContextCompat.getDrawable(this, res)
 }

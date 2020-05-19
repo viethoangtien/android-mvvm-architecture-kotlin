@@ -8,6 +8,8 @@ open class BaseResponse {
     @SerializedName("msg")
     var msg: String = ""
     @SerializedName("total_page")
-    var total_page: Int = 0
+    var totalPage: Int = 0
+    @SerializedName("current_page")
+    var currentPage: Int = 0
 
 }
