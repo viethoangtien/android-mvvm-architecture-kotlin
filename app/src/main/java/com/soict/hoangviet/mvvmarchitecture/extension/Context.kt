@@ -219,10 +219,10 @@ fun Context.setSatatusBarColor(context: WeakReference<Activity>, @ColorRes color
 }
 
 @ColorInt
-fun Context.color(@ColorRes res: Int): Int {
+fun Context.color(res: Int): Int {
     return ContextCompat.getColor(this, res)
 }
 
-fun Context.drawable(@DrawableRes res: Int): Drawable? {
+fun Context.drawable(res: Int): Drawable? {
     return ContextCompat.getDrawable(this, res)
 }

@@ -3,7 +3,7 @@ package com.soict.hoangviet.baseproject.data.network.response
 import com.google.gson.annotations.SerializedName
 import com.soict.hoangviet.baseproject.utils.Define
 
-class ListResponse<T>(
+open class ListResponse<T>(
     val type: Int,
     val data: ArrayList<T>?,
     val error: Throwable?

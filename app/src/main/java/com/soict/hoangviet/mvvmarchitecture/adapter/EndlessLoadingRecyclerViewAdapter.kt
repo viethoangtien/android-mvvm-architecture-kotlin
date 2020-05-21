@@ -4,13 +4,17 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.soict.hoangviet.mvvmarchitecture.R
 
-abstract class EndlessLoadingRecyclerViewAdapter(context: Context, enableSelectedMode: Boolean) :
-        RecyclerViewAdapter(context, enableSelectedMode) {
+abstract class EndlessLoadingRecyclerViewAdapter<T : ViewDataBinding>(
+    context: Context,
+    enableSelectedMode: Boolean
+) :
+    RecyclerViewAdapter<T>(context, enableSelectedMode) {
 
     private var loadingMoreListener: OnLoadingMoreListener? = null
     private var disableLoadMore = false
@@ -38,11 +42,13 @@ abstract class EndlessLoadingRecyclerViewAdapter(context: Context, enableSelecte
                         val layoutManager = recyclerView.layoutManager
                         if (layoutManager is LinearLayoutManager) {
                             firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
-                            lastVisibleItemPosition = layoutManager.findLastCompletelyVisibleItemPosition()
+                            lastVisibleItemPosition =
+                                layoutManager.findLastCompletelyVisibleItemPosition()
                         } else if (layoutManager is GridLayoutManager) {
                             firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
 
-                            lastVisibleItemPosition = layoutManager.findLastCompletelyVisibleItemPosition()
+                            lastVisibleItemPosition =
+                                layoutManager.findLastCompletelyVisibleItemPosition()
                         }
                         if (firstVisibleItemPosition > 0 && lastVisibleItemPosition == itemCount - 1) {
                             isLoading = true
@@ -77,28 +83,34 @@ abstract class EndlessLoadingRecyclerViewAdapter(context: Context, enableSelecte
         }
     }
 
-    override fun solvedOnCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+    override fun solvedOnCreateViewHolder(
+        binding: T,
+        viewType: Int
+    ): RecyclerView.ViewHolder {
         val result: RecyclerView.ViewHolder
         when (viewType) {
             VIEW_TYPE_LOADING -> {
-                result = LoadingViewHolder(LayoutInflater.from(context).inflate(R.layout.layout_load_more,parent,false))
+                result = LoadingViewHolder(binding.root)
             }
-
             else -> {
-                result = initNormalViewHolder(parent)!!
+                result = initNormalViewHolder(binding)!!
             }
         }
         return result
     }
 
-    override fun solvedOnBindViewHolder(viewHolder: RecyclerView.ViewHolder, viewType: Int, position: Int) {
+    override fun solvedOnBindViewHolder(
+        viewHolder: RecyclerView.ViewHolder,
+        viewType: Int,
+        position: Int
+    ) {
         when (viewType) {
             VIEW_TYPE_LOADING -> {
 //                bindLoadingViewHolder(viewHolder as LoadingViewHolder, position)
             }
 
             else -> {
-                bindNormalViewHolder(viewHolder as RecyclerViewAdapter.NormalViewHolder, position)
+                bindNormalViewHolder(viewHolder as NormalViewHolder<*, Any>, position)
             }
         }
     }
@@ -106,10 +118,6 @@ abstract class EndlessLoadingRecyclerViewAdapter(context: Context, enableSelecte
     interface OnLoadingMoreListener {
         fun onLoadMore()
     }
-
-//    protected abstract fun initLoadingViewHolder(parent: ViewGroup): RecyclerView.ViewHolder
-
-//    protected abstract fun bindLoadingViewHolder(loadingViewHolder: LoadingViewHolder, position: Int)
 
     class LoadingViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 

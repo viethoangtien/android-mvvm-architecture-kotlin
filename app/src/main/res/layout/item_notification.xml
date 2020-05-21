@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="com.soict.hoangviet.baseproject.utils.DateUtil" />
+
+        <variable
+            name="dataItemNotification"
+            type="com.soict.hoangviet.mvvmarchitecture.data.network.response.DataItemNotification" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/imv_avatar"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:padding="@dimen/content_padding_16_dp"
+            android:src="@{`http://api-staging.timdatxe.com/` + dataItemNotification.avatar}"
+            tools:src="@drawable/ic_avatar" />
+
+        <LinearLayout
+            android:id="@+id/ll_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_16_dp"
+            android:layout_toRightOf="@id/imv_avatar"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_notification"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:notification="@{dataItemNotification.title}"
+                tools:text="HoangTienVietHoangTienVietHoangTienVietHoangTienVietHoangTienVietHoangTienVietHoangTienVietHoangTienVietHoangTienVietHoangTienVietHoangTienVietHoangTienVietHoangTienVietHoangTienVietHoangTienVietHoangTienVietHoangTienViet" />
+
+            <LinearLayout
+                android:id="@+id/ll_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_8_dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/ic_time_start" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_4_dp"
+                    android:text="10:16 AM" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="@dimen/margin_8_dp"
+                    android:src="@drawable/ic_calendar" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_4_dp"
+                    android:text="10:16 AM" />
+
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@id/ll_info"
+            android:layout_marginTop="@dimen/margin_16_dp"
+            android:background="#e6e6e6" />
+    </RelativeLayout>
+</layout>

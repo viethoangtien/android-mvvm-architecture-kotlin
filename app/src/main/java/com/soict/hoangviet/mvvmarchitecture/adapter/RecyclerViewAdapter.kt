@@ -5,20 +5,24 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-
 import java.util.ArrayList
 import java.util.concurrent.atomic.AtomicInteger
 
 
-abstract class RecyclerViewAdapter(var context: Context?, enableSelectedMode: Boolean) :
+abstract class RecyclerViewAdapter<T : ViewDataBinding>(
+    var context: Context?,
+    enableSelectedMode: Boolean
+) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
+    abstract val itemLayoutRes: Int
     private var listWrapperModels: ArrayList<ModelWrapper>? = null
     private var listWrapperModelsBackup: ArrayList<ModelWrapper>? = null
-
-    val inflater: LayoutInflater
+    private val inflater: LayoutInflater = LayoutInflater.from(context)
     private val onItemClickListeners: ArrayList<OnItemClickListener>
     private var onItemTouchChangeListener: OnItemTouchChangedListener? = null
     private var onItemSelectionChangeListener: OnItemSelectionChangedListener? = null
@@ -28,14 +32,16 @@ abstract class RecyclerViewAdapter(var context: Context?, enableSelectedMode: Bo
         private set
 
     init {
-        this.inflater = LayoutInflater.from(context)
         this.listWrapperModels = ArrayList()
         this.onItemClickListeners = ArrayList(1)
 
         setSelectedMode(enableSelectedMode)
     }
 
-    protected fun initDiffUtilCallback(oldItems: ArrayList<ModelWrapper>, newItems: ArrayList<ModelWrapper>): DiffUtilCallBack {
+    protected fun initDiffUtilCallback(
+        oldItems: ArrayList<ModelWrapper>,
+        newItems: ArrayList<ModelWrapper>
+    ): DiffUtilCallBack {
         return DiffUtilCallBack(oldItems, newItems)
     }
 
@@ -98,14 +104,14 @@ abstract class RecyclerViewAdapter(var context: Context?, enableSelectedMode: Bo
         notifyItemRangeRemoved(0, itemCount)
     }
 
-    fun  refresh(models: List<Any>) {
+    fun refresh(models: List<Any>) {
         val itemCount = itemCount
         listWrapperModels!!.clear()
         notifyItemRangeRemoved(0, itemCount)
         addModels(models, false)
     }
 
-    fun  addModels(listModels: List<Any>, isScroll: Boolean) {
+    fun addModels(listModels: List<Any>, isScroll: Boolean) {
         addModels(listModels, VIEW_TYPE_NORMAL, isScroll)
     }
 
@@ -113,7 +119,13 @@ abstract class RecyclerViewAdapter(var context: Context?, enableSelectedMode: Bo
         addModels(listModels, 0, listModels.size - 1, viewType, isScroll)
     }
 
-    fun addModels(listModels: List<Any>, fromIndex: Int, toIndex: Int, viewType: Int, isScroll: Boolean) {
+    fun addModels(
+        listModels: List<Any>,
+        fromIndex: Int,
+        toIndex: Int,
+        viewType: Int,
+        isScroll: Boolean
+    ) {
         val startInsertedPosition = itemCount
         val endInsertedPosition = startInsertedPosition + listModels.size
         for (i in fromIndex..toIndex) {
@@ -158,7 +170,13 @@ abstract class RecyclerViewAdapter(var context: Context?, enableSelectedMode: Bo
     }
 
     @JvmOverloads
-    fun addModel(index: Int, model: Any?, viewType: Int, isScroll: Boolean, isUpdate: Boolean = true) {
+    fun addModel(
+        index: Int,
+        model: Any?,
+        viewType: Int,
+        isScroll: Boolean,
+        isUpdate: Boolean = true
+    ) {
         val modelWrapper = ModelWrapper(model, viewType)
         this.listWrapperModels!!.add(index, modelWrapper)
         if (isUpdate) {
@@ -283,7 +301,8 @@ abstract class RecyclerViewAdapter(var context: Context?, enableSelectedMode: Bo
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        val viewHolder = solvedOnCreateViewHolder(parent, viewType)
+        val binding: T = DataBindingUtil.inflate(inflater, itemLayoutRes, parent, false)
+        val viewHolder = solvedOnCreateViewHolder(binding, viewType)
         setClickStateBackground(viewHolder!!.itemView, viewType, false)
         viewHolder.itemView.setOnTouchListener { view, motionEvent ->
             when (motionEvent.action) {
@@ -302,7 +321,12 @@ abstract class RecyclerViewAdapter(var context: Context?, enableSelectedMode: Bo
                 MotionEvent.ACTION_UP -> {
                     val itemPosition = getItemPosition(view)
                     setClickStateBackground(view, viewType, false)
-                    notifyItemClickListener(this@RecyclerViewAdapter, viewHolder, viewType, itemPosition)
+                    notifyItemClickListener(
+                        this@RecyclerViewAdapter,
+                        viewHolder,
+                        viewType,
+                        itemPosition
+                    )
                 }
 
                 else -> {
@@ -317,9 +341,12 @@ abstract class RecyclerViewAdapter(var context: Context?, enableSelectedMode: Bo
         return recyclerView!!.getChildLayoutPosition(view)
     }
 
-    protected open fun solvedOnCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder? {
+    protected open fun solvedOnCreateViewHolder(
+        binding: T,
+        viewType: Int
+    ): RecyclerView.ViewHolder? {
         return if (viewType == VIEW_TYPE_NORMAL) {
-            initNormalViewHolder(parent)
+            initNormalViewHolder(binding)
         } else null
     }
 
@@ -327,20 +354,28 @@ abstract class RecyclerViewAdapter(var context: Context?, enableSelectedMode: Bo
         val modelWrapper = listWrapperModels!![position]
         val viewType = modelWrapper.viewType
         if (onItemSelectionChangeListener != null) {
-            onItemSelectionChangeListener!!.onItemSelectionChanged(holder, viewType, modelWrapper.isSelected)
+            onItemSelectionChangeListener!!.onItemSelectionChanged(
+                holder,
+                viewType,
+                modelWrapper.isSelected
+            )
         }
         solvedOnBindViewHolder(holder, viewType, position)
     }
 
-    protected open fun solvedOnBindViewHolder(viewHolder: RecyclerView.ViewHolder, viewType: Int, position: Int) {
+    protected open fun solvedOnBindViewHolder(
+        viewHolder: RecyclerView.ViewHolder,
+        viewType: Int,
+        position: Int
+    ) {
         if (viewType == VIEW_TYPE_NORMAL) {
-            bindNormalViewHolder(viewHolder as NormalViewHolder, position)
+            bindNormalViewHolder(viewHolder as NormalViewHolder<*, Any>, position)
         }
     }
 
-    protected abstract fun initNormalViewHolder(parent: ViewGroup): RecyclerView.ViewHolder?
+    protected abstract fun initNormalViewHolder(binding: T): RecyclerView.ViewHolder?
 
-    protected abstract fun bindNormalViewHolder(holder: NormalViewHolder, position: Int)
+    protected abstract fun bindNormalViewHolder(holder: NormalViewHolder<*, Any>, position: Int)
 
     protected fun setClickStateBackground(view: View, viewType: Int, isPress: Boolean) {
 
@@ -374,7 +409,11 @@ abstract class RecyclerViewAdapter(var context: Context?, enableSelectedMode: Bo
     }
 
     interface OnItemSelectionChangedListener {
-        fun onItemSelectionChanged(viewHolder: RecyclerView.ViewHolder, viewType: Int, isSelected: Boolean)
+        fun onItemSelectionChanged(
+            viewHolder: RecyclerView.ViewHolder,
+            viewType: Int,
+            isSelected: Boolean
+        )
     }
 
     interface OnItemTouchChangedListener {
@@ -383,7 +422,10 @@ abstract class RecyclerViewAdapter(var context: Context?, enableSelectedMode: Bo
         fun onItemRelease(viewHolder: RecyclerView.ViewHolder?, viewType: Int)
     }
 
-    open class NormalViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
+    abstract class NormalViewHolder<T : ViewDataBinding, U>(protected val binding: T) :
+        RecyclerView.ViewHolder(binding.root) {
+        abstract fun bind(data: U)
+    }
 
     class ModelWrapper(model: Any?, internal var viewType: Int) : Cloneable {
         internal var id = idGenerator.getAndIncrement()

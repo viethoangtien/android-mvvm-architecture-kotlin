@@ -61,6 +61,7 @@ dependencies {
     //Image Loader
     implementation "com.github.bumptech.glide:glide:$rootProject.glideVersion"
     kapt "com.github.bumptech.glide:compiler:$rootProject.glideComplierVersion"
+    implementation "de.hdodenhof:circleimageview:$rootProject.circle_image_version"
 
     //ViewModel
     implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
@@ -87,8 +88,9 @@ dependencies {
 
     // dependency injection
     implementation "com.google.dagger:dagger:$rootProject.dagger2Version"
+    implementation "com.google.dagger:dagger-android:$rootProject.dagger2Version"
+    implementation "com.google.dagger:dagger-android-support:$rootProject.dagger2Version"
     kapt "com.google.dagger:dagger-compiler:$rootProject.dagger2Version"
     kapt "com.google.dagger:dagger-android-processor:$rootProject.dagger2Version"
-    implementation "com.google.dagger:dagger-android-support:$rootProject.dagger2Version"
 
 }

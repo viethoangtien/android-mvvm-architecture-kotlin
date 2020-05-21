@@ -3,6 +3,7 @@ package com.soict.hoangviet.mvvmarchitecture.di.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.soict.hoangviet.mvvmarchitecture.ui.main.MainViewModel
+import com.soict.hoangviet.mvvmarchitecture.ui.notification.NotificationViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
@@ -16,4 +17,9 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(MainViewModel::class)
     internal abstract fun bindMainViewModel(viewModel: MainViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(NotificationViewModel::class)
+    internal abstract fun bindNotificationViewModel(viewModel: NotificationViewModel): ViewModel
 }

@@ -14,7 +14,7 @@ open class BaseViewModel(
     override fun onCleared() {
         super.onCleared()
         compositeDisposable.let {
-            it.dispose()
+            it.clear()
         }
     }
 }

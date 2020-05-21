@@ -17,6 +17,8 @@ import com.soict.hoangviet.baseproject.data.network.response.ListResponse;
 import com.soict.hoangviet.baseproject.data.network.response.ObjectResponse;
 import com.soict.hoangviet.baseproject.utils.Define;
 import com.soict.hoangviet.mvvmarchitecture.custom.ViewController;
+import com.soict.hoangviet.mvvmarchitecture.data.network.response.ListLoadMoreResponse;
+import com.soict.hoangviet.mvvmarchitecture.data.network.response.ObjectLoadMoreResponse;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -53,6 +55,7 @@ public abstract class BaseFragment<T extends ViewDataBinding> extends DaggerFrag
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initProgressDialog();
+        initViewModel();
         initView();
         initData();
         initListener();
@@ -115,13 +118,28 @@ public abstract class BaseFragment<T extends ViewDataBinding> extends DaggerFrag
         }
     }
 
-    protected void handleLoadMoreResponse(ListResponse<?> response, boolean isRefresh, boolean canLoadmore) {
+    protected void handleLoadMoreResponse(ListLoadMoreResponse<?> response) {
         switch (response.getType()) {
             case Define.ResponseStatus.LOADING:
                 showLoading();
                 break;
             case Define.ResponseStatus.SUCCESS:
-                getListResponse(response.getData(), isRefresh, canLoadmore);
+                getListResponse(response.getData(), response.isRefresh(), response.isLoadingMore());
+                hideLoading();
+                break;
+            case Define.ResponseStatus.ERROR:
+                handleNetworkError(response.getError(), true);
+                hideLoading();
+        }
+    }
+
+    protected void handleLoadMoreResponse(ObjectLoadMoreResponse<?> response) {
+        switch (response.getType()) {
+            case Define.ResponseStatus.LOADING:
+                showLoading();
+                break;
+            case Define.ResponseStatus.SUCCESS:
+                getObjectResponse(response.getData(), response.isRefresh(), response.isLoadingMore());
                 hideLoading();
                 break;
             case Define.ResponseStatus.ERROR:
@@ -157,11 +175,15 @@ public abstract class BaseFragment<T extends ViewDataBinding> extends DaggerFrag
 
     }
 
-    protected void getListResponse(List<?> data, boolean isRefresh, boolean canLoadMore) {
+    protected void getListResponse(List<?> data, boolean isRefresh, boolean isLoadingMore) {
 
     }
 
     protected <U> void getObjectResponse(U data) {
+
+    }
+
+    protected <U> void getObjectResponse(U data, boolean isRefresh, boolean isLoadingMore) {
 
     }
 
@@ -184,6 +206,8 @@ public abstract class BaseFragment<T extends ViewDataBinding> extends DaggerFrag
     public abstract boolean backPressed();
 
     public abstract void initView();
+
+    protected abstract void initViewModel();
 
     public abstract void initData();
 

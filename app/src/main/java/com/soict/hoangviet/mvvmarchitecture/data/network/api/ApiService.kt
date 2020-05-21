@@ -2,6 +2,9 @@ package com.soict.hoangviet.baseproject.data.network
 
 import com.soict.hoangviet.baseproject.data.network.response.ObjectResponse
 import com.soict.hoangviet.baseproject.data.network.response.ListResponse
+import com.soict.hoangviet.mvvmarchitecture.data.network.response.ListLoadMoreResponse
+import com.soict.hoangviet.mvvmarchitecture.data.network.response.NotificationResponse
+import com.soict.hoangviet.mvvmarchitecture.data.network.response.ObjectLoadMoreResponse
 import com.soict.hoangviet.mvvmarchitecture.data.network.response.TestResponse
 import io.reactivex.Single
 import okhttp3.MultipartBody
@@ -32,4 +35,8 @@ interface ApiService {
     @GET("/v1/banners")
     @Headers("Content-Type:application/json")
     fun getBanner(): Single<ListResponse<TestResponse>>
+
+    @GET("/v1/user_notifications")
+    @Headers("Content-Type:application/json")
+    fun getNotification(@Header(ApiConstant.RequestParam.AUTHORIZATION_HEADER) tokenHeader: String, @QueryMap data: MutableMap<String, Any?>): Single<ObjectLoadMoreResponse<NotificationResponse>>
 }
