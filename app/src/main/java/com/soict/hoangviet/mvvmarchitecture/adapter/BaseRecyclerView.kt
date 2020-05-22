@@ -126,17 +126,20 @@ class BaseRecyclerView : RelativeLayout {
         mAdapter?.addModels(data, false)
     }
 
-    fun setOnRefreshListener(refreshListener: OnRefreshListener?) {
+    fun setOnRefreshListener(func: () -> Unit) {
         mAdapter?.clear()
-        swipeRefresh.setOnRefreshListener(refreshListener)
+        swipeRefresh.setOnRefreshListener {
+            func.invoke()
+        }
+        swipeRefresh.isRefreshing = false
     }
 
-    fun setOnLoadingMoreListener(loadingMoreListener: OnLoadingMoreListener) {
+    fun setOnLoadingMoreListener(loadingMoreListener: () -> Unit) {
         mAdapter?.setLoadingMoreListener(loadingMoreListener)
     }
 
-    fun setOnItemClickListener(onItemClickListener: RecyclerViewAdapter.OnItemClickListener?) {
-        mAdapter?.addOnItemClickListener(onItemClickListener!!)
+    fun setOnItemClickListener(onItemClickListener: (RecyclerView.Adapter<*>, RecyclerView.ViewHolder?, Int, Int) -> Unit) {
+        mAdapter?.addOnItemClickListener(onItemClickListener)
     }
 
     fun setAdapter(adapter: EndlessLoadingRecyclerViewAdapter<*>?) {

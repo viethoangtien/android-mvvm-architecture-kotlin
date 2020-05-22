@@ -16,11 +16,11 @@ abstract class EndlessLoadingRecyclerViewAdapter<T : ViewDataBinding>(
 ) :
     RecyclerViewAdapter<T>(context, enableSelectedMode) {
 
-    private var loadingMoreListener: OnLoadingMoreListener? = null
+    private var loadingMoreListener: (() -> Unit)? = null
     private var disableLoadMore = false
     protected var isLoading = false
 
-    fun setLoadingMoreListener(loadingMoreListener: OnLoadingMoreListener?) {
+    fun setLoadingMoreListener(loadingMoreListener: () -> Unit) {
         this.loadingMoreListener = loadingMoreListener
         enableLoadingMore(loadingMoreListener != null)
     }
@@ -52,9 +52,7 @@ abstract class EndlessLoadingRecyclerViewAdapter<T : ViewDataBinding>(
                         }
                         if (firstVisibleItemPosition > 0 && lastVisibleItemPosition == itemCount - 1) {
                             isLoading = true
-                            if (loadingMoreListener != null) {
-                                loadingMoreListener!!.onLoadMore()
-                            }
+                            loadingMoreListener?.invoke()
                         }
                     }
                     else -> {

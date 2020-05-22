@@ -23,7 +23,7 @@ abstract class RecyclerViewAdapter<T : ViewDataBinding>(
     private var listWrapperModels: ArrayList<ModelWrapper>? = null
     private var listWrapperModelsBackup: ArrayList<ModelWrapper>? = null
     private val inflater: LayoutInflater = LayoutInflater.from(context)
-    private val onItemClickListeners: ArrayList<OnItemClickListener>
+    private val onItemClickListeners: ArrayList<((RecyclerView.Adapter<*>, RecyclerView.ViewHolder?, Int, Int) -> Unit)?>
     private var onItemTouchChangeListener: OnItemTouchChangedListener? = null
     private var onItemSelectionChangeListener: OnItemSelectionChangedListener? = null
     var isInSelectedMode: Boolean = false
@@ -34,7 +34,6 @@ abstract class RecyclerViewAdapter<T : ViewDataBinding>(
     init {
         this.listWrapperModels = ArrayList()
         this.onItemClickListeners = ArrayList(1)
-
         setSelectedMode(enableSelectedMode)
     }
 
@@ -71,7 +70,7 @@ abstract class RecyclerViewAdapter<T : ViewDataBinding>(
         this.context = null
     }
 
-    fun addOnItemClickListener(onItemClickListener: OnItemClickListener) {
+    fun addOnItemClickListener(onItemClickListener: (RecyclerView.Adapter<*>, RecyclerView.ViewHolder?, Int, Int) -> Unit) {
         this.onItemClickListeners.add(onItemClickListener)
     }
 
@@ -82,11 +81,11 @@ abstract class RecyclerViewAdapter<T : ViewDataBinding>(
         position: Int
     ) {
         for (onItemClickListener in onItemClickListeners) {
-            onItemClickListener.onItemClick(adapter, viewHolder, viewType, position)
+            onItemClickListener?.invoke(adapter, viewHolder, viewType, position)
         }
     }
 
-    fun removeOnItemClickListener(onItemClickListener: OnItemClickListener) {
+    fun removeOnItemClickListener(onItemClickListener: (RecyclerView.Adapter<*>, RecyclerView.ViewHolder?, Int, Int) -> Unit) {
         this.onItemClickListeners.remove(onItemClickListener)
     }
 

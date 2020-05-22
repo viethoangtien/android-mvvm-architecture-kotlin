@@ -47,11 +47,18 @@ class NotificationFragment : BaseFragment<FragmentNotificationBinding>() {
         notificationViewModel.notificationLiveData.observe(this, Observer {
             handleLoadMoreResponse(it)
         })
+        brv_notification.setOnRefreshListener {
+            notificationViewModel.getNotification(true)
+        }
     }
 
     override fun <U : Any?> getObjectResponse(data: U, isRefresh: Boolean, isLoadingMore: Boolean) {
         data as NotificationResponse
-        brv_notification.addItem(data.data as MutableList<DataItemNotification>)
+        if (isRefresh) {
+            brv_notification.refresh(data.data as MutableList<DataItemNotification>)
+        } else {
+            brv_notification.addItem(data.data as MutableList<DataItemNotification>)
+        }
     }
 
 }

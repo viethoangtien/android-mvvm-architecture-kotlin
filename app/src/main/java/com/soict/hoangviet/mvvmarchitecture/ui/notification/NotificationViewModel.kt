@@ -26,7 +26,7 @@ class NotificationViewModel @Inject constructor(
         compositeDisposable.add(
             repository.getNotification(data)
                 .doOnSubscribe {
-                    notificationLiveData.value = ObjectLoadMoreResponse.loading()
+                    if(!isRefresh) notificationLiveData.value = ObjectLoadMoreResponse.loading()
                 }
                 .subscribe({
                     pageIndex = it.currentPage + 1
