@@ -22,8 +22,8 @@ abstract class RecyclerViewAdapter<T : ViewDataBinding>(
     abstract val itemLayoutRes: Int
     private var listWrapperModels: ArrayList<ModelWrapper>? = null
     private var listWrapperModelsBackup: ArrayList<ModelWrapper>? = null
-    private val inflater: LayoutInflater = LayoutInflater.from(context)
-    private val onItemClickListeners: ArrayList<((RecyclerView.Adapter<*>, RecyclerView.ViewHolder?, Int, Int) -> Unit)?>
+    protected val inflater: LayoutInflater = LayoutInflater.from(context)
+    private val onItemClickListeners: ArrayList<((RecyclerViewAdapter<*>, RecyclerView.ViewHolder?, Int, Int) -> Unit)?>
     private var onItemTouchChangeListener: OnItemTouchChangedListener? = null
     private var onItemSelectionChangeListener: OnItemSelectionChangedListener? = null
     var isInSelectedMode: Boolean = false
@@ -70,12 +70,12 @@ abstract class RecyclerViewAdapter<T : ViewDataBinding>(
         this.context = null
     }
 
-    fun addOnItemClickListener(onItemClickListener: (RecyclerView.Adapter<*>, RecyclerView.ViewHolder?, Int, Int) -> Unit) {
+    fun addOnItemClickListener(onItemClickListener: (RecyclerViewAdapter<*>, RecyclerView.ViewHolder?, Int, Int) -> Unit) {
         this.onItemClickListeners.add(onItemClickListener)
     }
 
     private fun notifyItemClickListener(
-        adapter: RecyclerView.Adapter<*>,
+        adapter: RecyclerViewAdapter<*>,
         viewHolder: RecyclerView.ViewHolder?,
         viewType: Int,
         position: Int
@@ -85,7 +85,7 @@ abstract class RecyclerViewAdapter<T : ViewDataBinding>(
         }
     }
 
-    fun removeOnItemClickListener(onItemClickListener: (RecyclerView.Adapter<*>, RecyclerView.ViewHolder?, Int, Int) -> Unit) {
+    fun removeOnItemClickListener(onItemClickListener: (RecyclerViewAdapter<*>, RecyclerView.ViewHolder?, Int, Int) -> Unit) {
         this.onItemClickListeners.remove(onItemClickListener)
     }
 
@@ -301,7 +301,7 @@ abstract class RecyclerViewAdapter<T : ViewDataBinding>(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val binding: T = DataBindingUtil.inflate(inflater, itemLayoutRes, parent, false)
-        val viewHolder = solvedOnCreateViewHolder(binding, viewType)
+        val viewHolder = solvedOnCreateViewHolder(binding, parent, viewType)
         setClickStateBackground(viewHolder!!.itemView, viewType, false)
         viewHolder.itemView.setOnTouchListener { view, motionEvent ->
             when (motionEvent.action) {
@@ -342,11 +342,13 @@ abstract class RecyclerViewAdapter<T : ViewDataBinding>(
 
     protected open fun solvedOnCreateViewHolder(
         binding: T,
+        parent: ViewGroup,
         viewType: Int
     ): RecyclerView.ViewHolder? {
-        return if (viewType == VIEW_TYPE_NORMAL) {
-            initNormalViewHolder(binding)
-        } else null
+        return when (viewType) {
+            VIEW_TYPE_NORMAL -> initNormalViewHolder(binding)
+            else -> null
+        }
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
@@ -396,15 +398,6 @@ abstract class RecyclerViewAdapter<T : ViewDataBinding>(
 
     override fun getItemCount(): Int {
         return listWrapperModels!!.size
-    }
-
-    interface OnItemClickListener {
-        fun onItemClick(
-            adapter: RecyclerView.Adapter<*>,
-            viewHolder: RecyclerView.ViewHolder?,
-            viewType: Int,
-            position: Int
-        )
     }
 
     interface OnItemSelectionChangedListener {

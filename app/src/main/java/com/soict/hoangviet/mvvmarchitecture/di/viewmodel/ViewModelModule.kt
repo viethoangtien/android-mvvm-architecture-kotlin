@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.soict.hoangviet.mvvmarchitecture.ui.main.MainViewModel
 import com.soict.hoangviet.mvvmarchitecture.ui.notification.NotificationViewModel
+import com.soict.hoangviet.mvvmarchitecture.ui.validation.ValidationViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
@@ -22,4 +23,9 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(NotificationViewModel::class)
     internal abstract fun bindNotificationViewModel(viewModel: NotificationViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(ValidationViewModel::class)
+    internal abstract fun bindValidationViewModel(viewModel: ValidationViewModel): ViewModel
 }

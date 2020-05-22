@@ -1,4 +1,4 @@
-package com.soict.hoangviet.mvvmarchitecture.ui.base
+package com.soict.hoangviet.mvvmarchitecture.base.ui
 
 import androidx.lifecycle.ViewModel
 import com.soict.hoangviet.baseproject.data.network.api.Repository

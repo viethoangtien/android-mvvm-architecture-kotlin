@@ -20,7 +20,7 @@ class Repository @Inject constructor(val apiService: ApiService) {
     }
 
     fun getNotification(data: MutableMap<String, Any?>): Single<ObjectLoadMoreResponse<NotificationResponse>> {
-        return apiService.getNotification("${ApiConstant.RequestParam.BEARER} eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9hcGktc3RhZ2luZy50aW1kYXR4ZS5jb21cL3YxXC9jcmVhdGVfc2Vzc2lvbnMiLCJpYXQiOjE1OTAwNTQwMjMsImV4cCI6MTU5MDA1NzYyMywibmJmIjoxNTkwMDU0MDIzLCJqdGkiOiJRWDNvVFJkSURqTERCQ05XIiwic3ViIjo0LCJwcnYiOiJmNjRkNDhhNmNlYzdiZGZhN2ZiZjg5OTQ1NGI0ODhiM2U0NjI1MjBhIiwicm9sZSI6InVzZXJzIn0.z2q2LiLLtIFW_T2iZKXDYqC0tgm8oQjw98T4Rs-aKsw", data)
+        return apiService.getNotification("${ApiConstant.RequestParam.BEARER} eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9hcGktc3RhZ2luZy50aW1kYXR4ZS5jb21cL3YxXC91c2VyX3JlZnJlc2giLCJpYXQiOjE1OTAwNTQwMjMsImV4cCI6MTU5MDExNDU3NywibmJmIjoxNTkwMTEwOTc3LCJqdGkiOiJrM0pEUW1kUWpNQ1JIbmhWIiwic3ViIjo0LCJwcnYiOiJmNjRkNDhhNmNlYzdiZGZhN2ZiZjg5OTQ1NGI0ODhiM2U0NjI1MjBhIiwicm9sZSI6InVzZXJzIn0.T62AnujW_vepNWo88iW9qsEaLv1UdQWABs2tDDVldVw", data)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
     }

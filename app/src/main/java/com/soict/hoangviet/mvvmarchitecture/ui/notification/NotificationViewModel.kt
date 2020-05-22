@@ -4,9 +4,9 @@ import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import com.soict.hoangviet.baseproject.data.network.api.Repository
 import com.soict.hoangviet.baseproject.data.sharepreference.SharePreference
+import com.soict.hoangviet.mvvmarchitecture.base.ui.BaseViewModel
 import com.soict.hoangviet.mvvmarchitecture.data.network.response.NotificationResponse
 import com.soict.hoangviet.mvvmarchitecture.data.network.response.ObjectLoadMoreResponse
-import com.soict.hoangviet.mvvmarchitecture.ui.base.BaseViewModel
 import javax.inject.Inject
 
 class NotificationViewModel @Inject constructor(
@@ -19,17 +19,19 @@ class NotificationViewModel @Inject constructor(
     private val limit = 10
     val notificationLiveData = MutableLiveData<ObjectLoadMoreResponse<NotificationResponse>>()
 
-    fun getNotification(isRefresh: Boolean) {
+    fun getNotification(isRefresh: Boolean, isLoadingMore: Boolean = false) {
+        if (isRefresh) pageIndex = 1
         var data: MutableMap<String, Any?> = mutableMapOf()
         data["page"] = pageIndex
         data["limit"] = limit
         compositeDisposable.add(
             repository.getNotification(data)
                 .doOnSubscribe {
-                    if(!isRefresh) notificationLiveData.value = ObjectLoadMoreResponse.loading()
+                    if (!isRefresh && !isLoadingMore) notificationLiveData.value =
+                        ObjectLoadMoreResponse.loading()
                 }
                 .subscribe({
-                    pageIndex = it.currentPage + 1
+                    pageIndex++
                     totalPage = it.totalItems / limit
                     notificationLiveData.value =
                         ObjectLoadMoreResponse.success(

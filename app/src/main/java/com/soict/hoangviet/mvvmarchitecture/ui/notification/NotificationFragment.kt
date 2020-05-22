@@ -3,12 +3,13 @@ package com.soict.hoangviet.mvvmarchitecture.ui.notification
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.soict.hoangviet.baseproject.extension.toast
 import com.soict.hoangviet.mvvmarchitecture.R
 import com.soict.hoangviet.mvvmarchitecture.adapter.NotificationAdapter
+import com.soict.hoangviet.mvvmarchitecture.base.ui.BaseFragment
 import com.soict.hoangviet.mvvmarchitecture.data.network.response.DataItemNotification
 import com.soict.hoangviet.mvvmarchitecture.data.network.response.NotificationResponse
 import com.soict.hoangviet.mvvmarchitecture.databinding.FragmentNotificationBinding
-import com.soict.hoangviet.mvvmarchitecture.ui.base.BaseFragment
 import kotlinx.android.synthetic.main.fragment_notification.*
 
 class NotificationFragment : BaseFragment<FragmentNotificationBinding>() {
@@ -50,10 +51,19 @@ class NotificationFragment : BaseFragment<FragmentNotificationBinding>() {
         brv_notification.setOnRefreshListener {
             notificationViewModel.getNotification(true)
         }
+        brv_notification.setOnItemClickListener { adapter, viewHolder, viewtype, position ->
+            val data = adapter.getItem(position, DataItemNotification::class.java)
+            toast(data?.id.toString())
+        }
+        brv_notification.setOnLoadingMoreListener {
+            brv_notification.showLoadingItem()
+            notificationViewModel.getNotification(false, true)
+        }
     }
 
     override fun <U : Any?> getObjectResponse(data: U, isRefresh: Boolean, isLoadingMore: Boolean) {
         data as NotificationResponse
+        brv_notification.enableLoadMore(isLoadingMore)
         if (isRefresh) {
             brv_notification.refresh(data.data as MutableList<DataItemNotification>)
         } else {

@@ -5,16 +5,12 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.RelativeLayout
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
 import com.beetech.tienichmuasam.base.adapter.EndlessLoadingRecyclerViewAdapter
-import com.beetech.tienichmuasam.base.adapter.EndlessLoadingRecyclerViewAdapter.OnLoadingMoreListener
 import com.beetech.tienichmuasam.base.adapter.RecyclerViewAdapter
-import com.soict.hoangviet.baseproject.extension.color
 import com.soict.hoangviet.mvvmarchitecture.R
 import kotlinx.android.synthetic.main.layout_base_recyclerview.view.*
 
@@ -126,6 +122,10 @@ class BaseRecyclerView : RelativeLayout {
         mAdapter?.addModels(data, false)
     }
 
+    fun showLoadingItem() {
+        mAdapter?.showLoadingItem(true)
+    }
+
     fun setOnRefreshListener(func: () -> Unit) {
         mAdapter?.clear()
         swipeRefresh.setOnRefreshListener {
@@ -138,7 +138,7 @@ class BaseRecyclerView : RelativeLayout {
         mAdapter?.setLoadingMoreListener(loadingMoreListener)
     }
 
-    fun setOnItemClickListener(onItemClickListener: (RecyclerView.Adapter<*>, RecyclerView.ViewHolder?, Int, Int) -> Unit) {
+    fun setOnItemClickListener(onItemClickListener: (RecyclerViewAdapter<*>, RecyclerView.ViewHolder?, Int, Int) -> Unit) {
         mAdapter?.addOnItemClickListener(onItemClickListener)
     }
 

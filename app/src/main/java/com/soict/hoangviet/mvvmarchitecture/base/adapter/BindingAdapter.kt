@@ -27,10 +27,12 @@ class BindingAdapter {
         fun TextView.bindNotificationTitle(
             content: String?
         ) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                text = (Html.fromHtml(content, Html.FROM_HTML_MODE_COMPACT))
-            } else {
-                text = (Html.fromHtml(content));
+            content?.let {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    text = (Html.fromHtml(it, Html.FROM_HTML_MODE_COMPACT))
+                } else {
+                    text = (Html.fromHtml(it));
+                }
             }
         }
     }

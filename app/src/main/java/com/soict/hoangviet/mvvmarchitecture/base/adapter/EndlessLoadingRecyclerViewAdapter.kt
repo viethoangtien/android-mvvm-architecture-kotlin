@@ -4,10 +4,12 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.soict.hoangviet.baseproject.extension.inflate
 import com.soict.hoangviet.mvvmarchitecture.R
 
 abstract class EndlessLoadingRecyclerViewAdapter<T : ViewDataBinding>(
@@ -83,18 +85,17 @@ abstract class EndlessLoadingRecyclerViewAdapter<T : ViewDataBinding>(
 
     override fun solvedOnCreateViewHolder(
         binding: T,
+        parent: ViewGroup,
         viewType: Int
-    ): RecyclerView.ViewHolder {
-        val result: RecyclerView.ViewHolder
-        when (viewType) {
+    ): RecyclerView.ViewHolder? {
+        return when (viewType) {
             VIEW_TYPE_LOADING -> {
-                result = LoadingViewHolder(binding.root)
+                LoadingViewHolder(parent.inflate(R.layout.layout_load_more))
             }
             else -> {
-                result = initNormalViewHolder(binding)!!
+                super.solvedOnCreateViewHolder(binding, parent, viewType)!!
             }
         }
-        return result
     }
 
     override fun solvedOnBindViewHolder(

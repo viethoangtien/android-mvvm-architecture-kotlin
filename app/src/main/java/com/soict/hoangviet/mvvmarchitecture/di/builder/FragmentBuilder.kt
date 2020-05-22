@@ -1,7 +1,7 @@
-package com.soict.hoangviet.baseproject.di.builder
+package com.soict.hoangviet.mvvmarchitecture.di.builder
 
-import com.soict.hoangviet.mvvmarchitecture.ui.main.MainActivity
 import com.soict.hoangviet.mvvmarchitecture.ui.notification.NotificationFragment
+import com.soict.hoangviet.mvvmarchitecture.ui.validation.ValidationFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -9,4 +9,7 @@ import dagger.android.ContributesAndroidInjector
 abstract class FragmentBuilder {
     @ContributesAndroidInjector()
     abstract fun bindNotificationFragment(): NotificationFragment
+
+    @ContributesAndroidInjector()
+    abstract fun bindValidationFragment(): ValidationFragment
 }

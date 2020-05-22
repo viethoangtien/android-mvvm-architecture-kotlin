@@ -1,4 +1,4 @@
-package com.soict.hoangviet.mvvmarchitecture.ui.base;
+package com.soict.hoangviet.mvvmarchitecture.base.ui;
 
 import android.os.Bundle;
 import android.widget.Toast;
@@ -13,11 +13,13 @@ import com.google.gson.JsonParseException;
 import com.soict.hoangviet.baseproject.common.BaseLoadingDialog;
 import com.soict.hoangviet.baseproject.data.network.ApiConstant;
 import com.soict.hoangviet.baseproject.data.network.ApiError;
+import com.soict.hoangviet.baseproject.data.network.api.ApiException;
 import com.soict.hoangviet.baseproject.data.network.api.NetworkConnectionInterceptor;
 import com.soict.hoangviet.baseproject.data.network.response.ListResponse;
 import com.soict.hoangviet.baseproject.data.network.response.ObjectResponse;
 import com.soict.hoangviet.baseproject.utils.Define;
 import com.soict.hoangviet.mvvmarchitecture.custom.ViewController;
+import com.soict.hoangviet.mvvmarchitecture.data.network.response.BaseError;
 
 import java.io.IOException;
 import java.net.ConnectException;
@@ -83,9 +85,8 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends DaggerAppC
     }
 
     @Nullable
-    public void handleNetworkError(Throwable throwable, boolean isShowDialog) {
+    public void handleNetworkError(Throwable throwable, boolean isShowToast) {
         ApiError apiError;
-
         if (throwable instanceof NetworkConnectionInterceptor.NoConnectivityException) {
             apiError = new ApiError(throwable.getMessage());
         } else if (throwable instanceof HttpException) {
@@ -96,24 +97,33 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends DaggerAppC
                         ApiError.class
                 );
             } catch (JsonParseException jfe) {
-                apiError = new ApiError(ApiConstant.HttpMessage.TIME_OUT);
+                apiError = new ApiError(ApiConstant.HttpMessage.ERROR_TRY_AGAIN);
             } catch (IOException ioe) {
-                apiError = new ApiError(ApiConstant.HttpMessage.TIME_OUT);
+                apiError = new ApiError(ApiConstant.HttpMessage.ERROR_TRY_AGAIN);
             } catch (IllegalStateException ile) {
-                apiError = new ApiError(ApiConstant.HttpMessage.TIME_OUT);
+                apiError = new ApiError(ApiConstant.HttpMessage.ERROR_TRY_AGAIN);
             } catch (Exception e) {
-                apiError = new ApiError(ApiConstant.HttpMessage.TIME_OUT);
+                apiError = new ApiError(ApiConstant.HttpMessage.ERROR_TRY_AGAIN);
             }
         } else if (throwable instanceof ConnectException
                 || throwable instanceof SocketTimeoutException
                 || throwable instanceof UnknownHostException
                 || throwable instanceof IOException) {
             apiError = new ApiError(ApiConstant.HttpMessage.TIME_OUT);
+        } else if (throwable instanceof BaseError) {
+            apiError = new ApiError(throwable.getMessage(), ((BaseError) throwable).getCode());
         } else {
-            apiError = new ApiError(ApiConstant.HttpMessage.TIME_OUT);
+            apiError = new ApiError(ApiConstant.HttpMessage.ERROR_TRY_AGAIN);
         }
-        if (isShowDialog && apiError != null) {
-            Toast.makeText(this, apiError.getApiException().getMessage(), Toast.LENGTH_LONG).show();
+        if (isShowToast) {
+            if (apiError != null) {
+                Toast.makeText(this, apiError.getApiException().getMessage(), Toast.LENGTH_LONG).show();
+            }
+        } else {
+            if (apiError != null) {
+                ApiException apiException = apiError.getApiException();
+                getError(apiException.getMessage(), apiException.getStatusCode());
+            }
         }
     }
 
@@ -125,7 +135,7 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends DaggerAppC
         }
     }
 
-    protected void handleListResponse(ListResponse<?> response) {
+    protected void handleListResponse(ListResponse<?> response, boolean isShowToast) {
         switch (response.getType()) {
             case Define.ResponseStatus.LOADING:
                 showLoading();
@@ -135,7 +145,7 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends DaggerAppC
                 hideLoading();
                 break;
             case Define.ResponseStatus.ERROR:
-                handleNetworkError(response.getError(), true);
+                handleNetworkError(response.getError(), isShowToast);
                 hideLoading();
         }
     }
@@ -155,7 +165,7 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends DaggerAppC
         }
     }
 
-    protected <U> void handleObjectResponse(ObjectResponse<U> response) {
+    protected <U> void handleObjectResponse(ObjectResponse<U> response, boolean isShowToast) {
         switch (response.getType()) {
             case Define.ResponseStatus.LOADING:
                 showLoading();
@@ -166,7 +176,7 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends DaggerAppC
                 break;
             case Define.ResponseStatus.ERROR:
                 hideLoading();
-                handleNetworkError(response.getError(), true);
+                handleNetworkError(response.getError(), isShowToast);
         }
     }
 
@@ -179,6 +189,10 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends DaggerAppC
     }
 
     protected <U> void getObjectResponse(U data) {
+
+    }
+
+    protected void getError(String error, int code) {
 
     }
 

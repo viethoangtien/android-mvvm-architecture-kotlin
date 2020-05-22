@@ -5,8 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import com.soict.hoangviet.baseproject.data.network.api.Repository
 import com.soict.hoangviet.baseproject.data.network.response.ListResponse
 import com.soict.hoangviet.baseproject.data.sharepreference.SharePreference
+import com.soict.hoangviet.mvvmarchitecture.base.ui.BaseViewModel
 import com.soict.hoangviet.mvvmarchitecture.data.network.response.TestResponse
-import com.soict.hoangviet.mvvmarchitecture.ui.base.BaseViewModel
 import javax.inject.Inject
 
 class MainViewModel @Inject constructor(

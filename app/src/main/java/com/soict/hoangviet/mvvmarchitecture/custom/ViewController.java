@@ -5,7 +5,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.soict.hoangviet.mvvmarchitecture.R;
-import com.soict.hoangviet.mvvmarchitecture.ui.base.BaseFragment;
+import com.soict.hoangviet.mvvmarchitecture.base.ui.BaseFragment;
 
 import java.util.ArrayList;
 import java.util.HashMap;
