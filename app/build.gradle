@@ -69,15 +69,18 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-common-java8:$lifecycle_version"
     implementation "androidx.recyclerview:recyclerview:$recyclerview_version"
 
-
     // Network
     implementation "com.google.code.gson:gson:$rootProject.gsonVersion"
     implementation "com.squareup.retrofit2:retrofit:$rootProject.retrofit2Verion"
     implementation "com.squareup.retrofit2:converter-gson:$rootProject.gsonConverterVersion"
     implementation "com.squareup.okhttp3:logging-interceptor:$rootProject.interceptorVersion"
+
     // Rx adapter for retrofit
     implementation "com.squareup.retrofit2:adapter-rxjava2:$rootProject.rxjava2Version"
     implementation "io.reactivex.rxjava2:rxandroid:$rootProject.rxandroidVersion"
+
+    //Coroutines
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$rootProject.coroutines_version"
 
     //google play service
     implementation "com.google.android.gms:play-services-maps:$rootProject.serviceMapsVersion"

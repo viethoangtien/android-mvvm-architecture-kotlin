@@ -1,11 +1,10 @@
 package com.soict.hoangviet.mvvmarchitecture.ui.main
 
-import androidx.lifecycle.ViewModelProviders
 import com.soict.hoangviet.mvvmarchitecture.R
 import com.soict.hoangviet.mvvmarchitecture.base.ui.BaseActivity
 import com.soict.hoangviet.mvvmarchitecture.databinding.ActivityMainBinding
+import com.soict.hoangviet.mvvmarchitecture.extension.injectViewModel
 import com.soict.hoangviet.mvvmarchitecture.ui.notification.NotificationFragment
-import com.soict.hoangviet.mvvmarchitecture.ui.validation.ValidationFragment
 
 class MainActivity : BaseActivity<ActivityMainBinding>() {
     private lateinit var mMainViewModel: MainViewModel
@@ -16,12 +15,11 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     }
 
     override fun initViewModel() {
-        mMainViewModel =
-            ViewModelProviders.of(this, viewModelFactory).get(MainViewModel::class.java)
+        mMainViewModel = injectViewModel(viewModelFactory)
     }
 
     override fun initView() {
-        viewController.addFragment(ValidationFragment::class.java, null)
+        viewController.addFragment(NotificationFragment::class.java, null)
     }
 
     override fun initData() {

@@ -1,12 +1,12 @@
 package com.soict.hoangviet.mvvmarchitecture.ui.validation
 
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import com.soict.hoangviet.baseproject.extension.toast
 import com.soict.hoangviet.mvvmarchitecture.R
 import com.soict.hoangviet.mvvmarchitecture.base.ui.BaseFragment
 import com.soict.hoangviet.mvvmarchitecture.databinding.FragmentValidationBinding
 import com.soict.hoangviet.mvvmarchitecture.extension.addTextChangeListener
+import com.soict.hoangviet.mvvmarchitecture.extension.injectViewModel
 import kotlinx.android.synthetic.main.fragment_validation.*
 
 class ValidationFragment : BaseFragment<FragmentValidationBinding>() {
@@ -29,8 +29,7 @@ class ValidationFragment : BaseFragment<FragmentValidationBinding>() {
     }
 
     override fun initViewModel() {
-        validationViewModel =
-            ViewModelProviders.of(this, viewModelFactory).get(ValidationViewModel::class.java)
+        validationViewModel = injectViewModel(viewModelFactory)
         binding.validationViewModel = validationViewModel
     }
 

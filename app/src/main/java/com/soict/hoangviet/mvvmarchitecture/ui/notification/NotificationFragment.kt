@@ -10,6 +10,7 @@ import com.soict.hoangviet.mvvmarchitecture.base.ui.BaseFragment
 import com.soict.hoangviet.mvvmarchitecture.data.network.response.DataItemNotification
 import com.soict.hoangviet.mvvmarchitecture.data.network.response.NotificationResponse
 import com.soict.hoangviet.mvvmarchitecture.databinding.FragmentNotificationBinding
+import com.soict.hoangviet.mvvmarchitecture.extension.injectViewModel
 import kotlinx.android.synthetic.main.fragment_notification.*
 
 class NotificationFragment : BaseFragment<FragmentNotificationBinding>() {
@@ -26,8 +27,7 @@ class NotificationFragment : BaseFragment<FragmentNotificationBinding>() {
     override fun backPressed(): Boolean = true
 
     override fun initViewModel() {
-        notificationViewModel =
-            ViewModelProviders.of(this, viewModelFactory).get(NotificationViewModel::class.java)
+        notificationViewModel = injectViewModel(viewModelFactory)
     }
 
     override fun initView() {

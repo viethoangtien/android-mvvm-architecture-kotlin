@@ -6,6 +6,7 @@ import android.text.TextWatcher
 import android.widget.EditText
 import io.reactivex.Completable
 import io.reactivex.Observable
+import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
@@ -47,3 +48,6 @@ fun EditText.observableFromView(): Observable<String> {
     })
     return subject
 }
+
+fun <T> Single<T>.backgroundThreadProcess(): Single<T> =
+    subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
