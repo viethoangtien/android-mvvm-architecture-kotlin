@@ -23,11 +23,11 @@ class ValidationViewModel @Inject constructor(
     fun onLoginClicked() {
         when {
             email.value.toString().isNullOrEmpty() -> {
-                successfulLogin.value = ObjectResponse.error(BaseError("Please enter email", 1))
+                successfulLogin.value = ObjectResponse.error(BaseError("Please enter email", 1, isShowToast = true))
             }
             !email.value.toString().isValidateEmail() -> {
                 successfulLogin.value =
-                    ObjectResponse.error(BaseError("Please enter valid email", 1))
+                    ObjectResponse.error(BaseError("Please enter valid email", 1, isShowToast = true))
             }
             password.value.toString().isNullOrEmpty() -> {
                 successfulLogin.value = ObjectResponse.error(BaseError("Please enter password", 2))

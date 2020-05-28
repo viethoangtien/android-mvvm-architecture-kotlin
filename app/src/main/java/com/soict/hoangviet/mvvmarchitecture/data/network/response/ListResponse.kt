@@ -6,7 +6,9 @@ import com.soict.hoangviet.baseproject.utils.Define
 open class ListResponse<T>(
     val type: Int,
     val data: ArrayList<T>?,
-    val error: Throwable?
+    val error: Throwable?,
+    var isRefresh: Boolean = false,
+    var isLoadingMore: Boolean = false
 ) : BaseResponse() {
     companion object {
         fun <T> loading(): ListResponse<T> =
@@ -17,5 +19,10 @@ open class ListResponse<T>(
 
         fun <T> error(throwable: Throwable): ListResponse<T> =
             ListResponse(Define.ResponseStatus.ERROR, null, throwable)
+    }
+
+    fun setLoadingMore(isRefresh: Boolean, isLoadingMore: Boolean) {
+        this.isRefresh = isRefresh
+        this.isLoadingMore = isLoadingMore
     }
 }

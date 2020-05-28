@@ -5,6 +5,8 @@ import com.soict.hoangviet.mvvmarchitecture.base.ui.BaseActivity
 import com.soict.hoangviet.mvvmarchitecture.databinding.ActivityMainBinding
 import com.soict.hoangviet.mvvmarchitecture.extension.injectViewModel
 import com.soict.hoangviet.mvvmarchitecture.ui.notification.NotificationFragment
+import com.soict.hoangviet.mvvmarchitecture.ui.validation.ValidationFragment
+import com.soict.hoangviet.mvvmarchitecture.ui.validation.ValidationViewModel
 
 class MainActivity : BaseActivity<ActivityMainBinding>() {
     private lateinit var mMainViewModel: MainViewModel
@@ -19,7 +21,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     }
 
     override fun initView() {
-        viewController.addFragment(NotificationFragment::class.java, null)
+        viewController.addFragment(ValidationFragment::class.java, null)
     }
 
     override fun initData() {

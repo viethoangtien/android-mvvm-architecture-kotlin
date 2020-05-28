@@ -25,7 +25,6 @@ import com.soict.hoangviet.baseproject.data.network.response.ObjectResponse;
 import com.soict.hoangviet.baseproject.utils.Define;
 import com.soict.hoangviet.mvvmarchitecture.custom.ViewController;
 import com.soict.hoangviet.mvvmarchitecture.data.network.response.BaseError;
-import com.soict.hoangviet.mvvmarchitecture.data.network.response.ListLoadMoreResponse;
 import com.soict.hoangviet.mvvmarchitecture.data.network.response.ObjectLoadMoreResponse;
 
 import java.io.IOException;
@@ -36,6 +35,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import javax.inject.Inject;
 
 import dagger.android.support.DaggerFragment;
@@ -121,26 +121,11 @@ public abstract class BaseFragment<T extends ViewDataBinding> extends DaggerFrag
                 showLoading();
                 break;
             case Define.ResponseStatus.SUCCESS:
-                getListResponse(response.getData());
-                hideLoading();
-                break;
-            case Define.ResponseStatus.ERROR:
-                handleNetworkError(response.getError(), true);
-                hideLoading();
-        }
-    }
-
-    protected void handleLoadMoreResponse(ListLoadMoreResponse<?> response) {
-        switch (response.getType()) {
-            case Define.ResponseStatus.LOADING:
-                showLoading();
-                break;
-            case Define.ResponseStatus.SUCCESS:
                 getListResponse(response.getData(), response.isRefresh(), response.isLoadingMore());
                 hideLoading();
                 break;
             case Define.ResponseStatus.ERROR:
-                handleNetworkError(response.getError(), true);
+                handleNetworkError(response.getError());
                 hideLoading();
         }
     }
@@ -155,12 +140,12 @@ public abstract class BaseFragment<T extends ViewDataBinding> extends DaggerFrag
                 hideLoading();
                 break;
             case Define.ResponseStatus.ERROR:
-                handleNetworkError(response.getError(), true);
+                handleNetworkError(response.getError());
                 hideLoading();
         }
     }
 
-    protected <U> void handleObjectResponse(ObjectResponse<U> response, boolean isShowToast) {
+    protected <U> void handleObjectResponse(ObjectResponse<U> response) {
         switch (response.getType()) {
             case Define.ResponseStatus.LOADING:
                 showLoading();
@@ -171,7 +156,7 @@ public abstract class BaseFragment<T extends ViewDataBinding> extends DaggerFrag
                 break;
             case Define.ResponseStatus.ERROR:
                 hideLoading();
-                handleNetworkError(response.getError(), isShowToast);
+                handleNetworkError(response.getError());
         }
     }
 
@@ -181,10 +166,6 @@ public abstract class BaseFragment<T extends ViewDataBinding> extends DaggerFrag
         } else {
             return mViewController;
         }
-    }
-
-    protected void getListResponse(List<?> data) {
-
     }
 
     protected void getListResponse(List<?> data, boolean isRefresh, boolean isLoadingMore) {
@@ -214,8 +195,9 @@ public abstract class BaseFragment<T extends ViewDataBinding> extends DaggerFrag
     }
 
     @Nullable
-    public void handleNetworkError(Throwable throwable, boolean isShowToast) {
+    public void handleNetworkError(Throwable throwable) {
         ApiError apiError;
+        Boolean isShowToast = true;
         if (throwable instanceof NetworkConnectionInterceptor.NoConnectivityException) {
             apiError = new ApiError(throwable.getMessage());
         } else if (throwable instanceof HttpException) {
@@ -241,6 +223,7 @@ public abstract class BaseFragment<T extends ViewDataBinding> extends DaggerFrag
             apiError = new ApiError(ApiConstant.HttpMessage.TIME_OUT);
         } else if (throwable instanceof BaseError) {
             apiError = new ApiError(throwable.getMessage(), ((BaseError) throwable).getCode());
+            isShowToast = ((BaseError) throwable).isShowToast();
         } else {
             apiError = new ApiError(ApiConstant.HttpMessage.ERROR_TRY_AGAIN);
         }

@@ -2,7 +2,6 @@ package com.soict.hoangviet.baseproject.data.network
 
 import com.soict.hoangviet.baseproject.data.network.response.ObjectResponse
 import com.soict.hoangviet.baseproject.data.network.response.ListResponse
-import com.soict.hoangviet.mvvmarchitecture.data.network.response.ListLoadMoreResponse
 import com.soict.hoangviet.mvvmarchitecture.data.network.response.NotificationResponse
 import com.soict.hoangviet.mvvmarchitecture.data.network.response.ObjectLoadMoreResponse
 import com.soict.hoangviet.mvvmarchitecture.data.network.response.TestResponse

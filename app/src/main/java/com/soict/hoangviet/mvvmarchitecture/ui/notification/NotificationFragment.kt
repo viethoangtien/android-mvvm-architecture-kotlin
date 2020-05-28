@@ -1,5 +1,6 @@
 package com.soict.hoangviet.mvvmarchitecture.ui.notification
 
+import android.content.res.Configuration
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -40,6 +41,11 @@ class NotificationFragment : BaseFragment<FragmentNotificationBinding>() {
         brv_notification.setListLayoutManager(LinearLayoutManager.VERTICAL)
     }
 
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+
+
+    }
     override fun initData() {
         notificationViewModel.getNotification(false)
     }

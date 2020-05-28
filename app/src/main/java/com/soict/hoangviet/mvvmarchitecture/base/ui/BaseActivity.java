@@ -141,26 +141,11 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends DaggerAppC
                 showLoading();
                 break;
             case Define.ResponseStatus.SUCCESS:
-                getListResponse(response.getData());
+                getListResponse(response.getData(), response.isRefresh(), response.isLoadingMore());
                 hideLoading();
                 break;
             case Define.ResponseStatus.ERROR:
                 handleNetworkError(response.getError(), isShowToast);
-                hideLoading();
-        }
-    }
-
-    protected void handleLoadMoreResponse(ListResponse<?> response, boolean isRefresh, boolean canLoadmore) {
-        switch (response.getType()) {
-            case Define.ResponseStatus.LOADING:
-                showLoading();
-                break;
-            case Define.ResponseStatus.SUCCESS:
-                getListResponse(response.getData(), isRefresh, canLoadmore);
-                hideLoading();
-                break;
-            case Define.ResponseStatus.ERROR:
-                handleNetworkError(response.getError(), true);
                 hideLoading();
         }
     }
@@ -178,10 +163,6 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends DaggerAppC
                 hideLoading();
                 handleNetworkError(response.getError(), isShowToast);
         }
-    }
-
-    protected void getListResponse(List<?> data) {
-
     }
 
     protected void getListResponse(List<?> data, boolean isRefresh, boolean canLoadMore) {

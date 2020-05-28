@@ -39,11 +39,12 @@ class ValidationFragment : BaseFragment<FragmentValidationBinding>() {
 
     override fun initListener() {
         validationViewModel.successfulLogin.observe(this, Observer {
-            handleObjectResponse(it, false)
+            handleObjectResponse(it)
         })
         Pair(til_email, edt_email).addTextChangeListener()
         Pair(til_password, edt_password).addTextChangeListener()
     }
+
 
     override fun <U : Any?> getObjectResponse(data: U) {
         toast(data as String)
