@@ -1,4 +1,4 @@
-package com.soict.hoangviet.baseproject.di.builder
+package com.soict.hoangviet.mvvmarchitecture.di.builder
 
 import com.soict.hoangviet.mvvmarchitecture.ui.main.MainActivity
 import dagger.Module

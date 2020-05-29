@@ -11,11 +11,7 @@ import com.soict.hoangviet.mvvmarchitecture.base.ui.BaseViewModel
 import com.soict.hoangviet.mvvmarchitecture.data.network.response.BaseError
 import javax.inject.Inject
 
-class ValidationViewModel @Inject constructor(
-    repository: Repository,
-    sharePreference: SharePreference,
-    val context: Context
-) : BaseViewModel(repository = repository, sharePreference = sharePreference) {
+class ValidationViewModel @Inject constructor(val context: Context) : BaseViewModel() {
     val email = MutableLiveData<String>()
     val password = MutableLiveData<String>()
     val successfulLogin = MutableLiveData<ObjectResponse<String>>()

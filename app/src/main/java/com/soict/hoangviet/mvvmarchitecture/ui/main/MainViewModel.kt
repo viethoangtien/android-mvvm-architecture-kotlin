@@ -9,11 +9,7 @@ import com.soict.hoangviet.mvvmarchitecture.base.ui.BaseViewModel
 import com.soict.hoangviet.mvvmarchitecture.data.network.response.TestResponse
 import javax.inject.Inject
 
-class MainViewModel @Inject constructor(
-    repository: Repository,
-    sharePreference: SharePreference,
-    val context: Context
-) : BaseViewModel(repository = repository, sharePreference = sharePreference) {
+class MainViewModel @Inject constructor(val context: Context) : BaseViewModel() {
     var bannerLiveData = MutableLiveData<ListResponse<TestResponse>>()
 
     fun fetchBanner() {

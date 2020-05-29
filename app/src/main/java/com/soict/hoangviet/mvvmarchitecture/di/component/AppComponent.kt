@@ -2,7 +2,7 @@ package com.soict.hoangviet.baseproject.di.component
 
 import android.app.Application
 import android.content.Context
-import com.soict.hoangviet.baseproject.di.builder.ActivityBuilder
+import com.soict.hoangviet.mvvmarchitecture.di.builder.ActivityBuilder
 import com.soict.hoangviet.mvvmarchitecture.di.builder.FragmentBuilder
 import com.soict.hoangviet.baseproject.di.module.AppModule
 import com.soict.hoangviet.baseproject.di.module.NetworkModule

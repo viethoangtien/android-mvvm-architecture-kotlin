@@ -9,11 +9,7 @@ import com.soict.hoangviet.mvvmarchitecture.data.network.response.NotificationRe
 import com.soict.hoangviet.mvvmarchitecture.data.network.response.ObjectLoadMoreResponse
 import javax.inject.Inject
 
-class NotificationViewModel @Inject constructor(
-    repository: Repository,
-    sharePreference: SharePreference,
-    val context: Context
-) : BaseViewModel(repository = repository, sharePreference = sharePreference) {
+class NotificationViewModel @Inject constructor(val context: Context) : BaseViewModel() {
     private var pageIndex = 1
     private var totalPage = 0
     private val limit = 10
