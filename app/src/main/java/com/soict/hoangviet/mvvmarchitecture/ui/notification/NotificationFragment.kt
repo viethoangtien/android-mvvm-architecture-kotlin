@@ -4,6 +4,7 @@ import android.content.res.Configuration
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.beetech.productmanagement.di.annotation.LayoutId
 import com.soict.hoangviet.baseproject.extension.toast
 import com.soict.hoangviet.mvvmarchitecture.R
 import com.soict.hoangviet.mvvmarchitecture.adapter.NotificationAdapter
@@ -14,12 +15,10 @@ import com.soict.hoangviet.mvvmarchitecture.databinding.FragmentNotificationBind
 import com.soict.hoangviet.mvvmarchitecture.extension.injectViewModel
 import kotlinx.android.synthetic.main.fragment_notification.*
 
+@LayoutId(R.layout.fragment_notification)
 class NotificationFragment : BaseFragment<FragmentNotificationBinding>() {
     private lateinit var notificationViewModel: NotificationViewModel
     private lateinit var mNotificationAdapter: NotificationAdapter
-    override fun getLayoutId(): Int {
-        return R.layout.fragment_notification
-    }
 
     override fun backFromAddFragment() {
 

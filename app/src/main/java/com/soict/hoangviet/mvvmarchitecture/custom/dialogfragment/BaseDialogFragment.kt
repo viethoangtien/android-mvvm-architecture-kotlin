@@ -13,7 +13,6 @@ abstract class BaseDialogFragment(
     val cancelable: Boolean = true,
     val isStyleFullScreen: Boolean = false
 ) : DialogFragment() {
-    abstract val mLayoutRes: Int
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
