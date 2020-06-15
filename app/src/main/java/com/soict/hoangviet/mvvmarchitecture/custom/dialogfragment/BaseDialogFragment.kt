@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import androidx.fragment.app.DialogFragment
+import com.beetech.productmanagement.di.annotation.LayoutId
 import com.soict.hoangviet.mvvmarchitecture.R
 
 abstract class BaseDialogFragment(
@@ -27,7 +28,7 @@ abstract class BaseDialogFragment(
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(mLayoutRes, container, false)
+        val view = inflater.inflate(javaClass.getAnnotation(LayoutId::class.java)?.value ?: throw Exception("Doesn't provide layout id for dialog fragment"), container, false)
         if (!isStyleFullScreen) dialog?.window?.setBackgroundDrawableResource(R.drawable.bg_dialog)
         dialog?.window?.requestFeature(Window.FEATURE_NO_TITLE)
         isCancelable = cancelable

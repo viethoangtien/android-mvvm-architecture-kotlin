@@ -1,7 +1,8 @@
-package com.soict.hoangviet.baseproject.data.sharepreference
+package com.soict.hoangviet.mvvmarchitecture.data.preference
 
 import android.content.Context
 import android.content.SharedPreferences
+import com.soict.hoangviet.baseproject.data.sharepreference.SharePreference
 import com.soict.hoangviet.baseproject.utils.Define
 
 class AppSharePreference constructor(var context: Context?) : SharePreference {

@@ -13,6 +13,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.beetech.productmanagement.di.annotation.LayoutId;
 import com.google.gson.Gson;
 import com.google.gson.JsonParseException;
 import com.soict.hoangviet.baseproject.common.BaseLoadingDialog;
@@ -58,7 +59,7 @@ public abstract class BaseFragment<T extends ViewDataBinding> extends DaggerFrag
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        binding = DataBindingUtil.inflate(inflater, getLayoutId(), container, false);
+        binding = DataBindingUtil.inflate(inflater, getClass().getAnnotation(LayoutId.class).value(), container, false);
         binding.setLifecycleOwner(this.getViewLifecycleOwner());
         return binding.getRoot();
     }
@@ -76,8 +77,6 @@ public abstract class BaseFragment<T extends ViewDataBinding> extends DaggerFrag
     private void initProgressDialog() {
         baseLoadingDialog = BaseLoadingDialog.getInstance(requireContext());
     }
-
-    protected abstract int getLayoutId();
 
     public void setViewController(ViewController viewController) {
         this.mViewController = viewController;

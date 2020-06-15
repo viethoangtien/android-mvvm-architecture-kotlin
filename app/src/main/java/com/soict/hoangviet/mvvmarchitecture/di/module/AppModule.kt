@@ -2,11 +2,10 @@ package com.soict.hoangviet.baseproject.di.module
 
 import android.app.Application
 import android.content.Context
-import com.soict.hoangviet.baseproject.data.sharepreference.AppSharePreference
+import com.soict.hoangviet.mvvmarchitecture.data.preference.AppSharePreference
 import com.soict.hoangviet.baseproject.data.sharepreference.SharePreference
 import dagger.Module
 import dagger.Provides
-import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Singleton
 
 @Module

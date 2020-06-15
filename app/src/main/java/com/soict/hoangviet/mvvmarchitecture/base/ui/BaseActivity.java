@@ -8,6 +8,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.beetech.productmanagement.di.annotation.LayoutId;
 import com.google.gson.Gson;
 import com.google.gson.JsonParseException;
 import com.soict.hoangviet.baseproject.common.BaseLoadingDialog;
@@ -44,7 +45,7 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends DaggerAppC
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.setContentView(this, getLayoutId());
+        binding = DataBindingUtil.setContentView(this, getClass().getAnnotation(LayoutId.class).value());
         initProgressDialog();
         mViewController = new ViewController(getSupportFragmentManager(), getFragmentContainerId());
         initViewModel();
@@ -61,8 +62,6 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends DaggerAppC
     protected void onResume() {
         super.onResume();
     }
-
-    public abstract int getLayoutId();
 
     public abstract int getFragmentContainerId();
 
