@@ -9,6 +9,7 @@ import com.soict.hoangviet.mvvmarchitecture.base.ui.BaseFragment
 import com.soict.hoangviet.mvvmarchitecture.databinding.FragmentValidationBinding
 import com.soict.hoangviet.mvvmarchitecture.extension.addTextChangeListener
 import com.soict.hoangviet.mvvmarchitecture.extension.injectViewModel
+import com.soict.hoangviet.mvvmarchitecture.extension.showNetworkDialog
 import kotlinx.android.synthetic.main.fragment_validation.*
 
 @LayoutId(R.layout.fragment_validation)
