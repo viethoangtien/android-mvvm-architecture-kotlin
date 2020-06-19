@@ -1,6 +1,5 @@
 package com.soict.hoangviet.mvvmarchitecture.ui.main
 
-import android.app.Dialog
 import com.beetech.productmanagement.di.annotation.LayoutId
 import com.soict.hoangviet.baseproject.extension.onAvoidDoubleClick
 import com.soict.hoangviet.baseproject.extension.toast
@@ -9,7 +8,6 @@ import com.soict.hoangviet.mvvmarchitecture.base.ui.BaseActivity
 import com.soict.hoangviet.mvvmarchitecture.databinding.ActivityMainBinding
 import com.soict.hoangviet.mvvmarchitecture.extension.injectViewModel
 import com.soict.hoangviet.mvvmarchitecture.extension.showNetworkDialog
-import com.soict.hoangviet.mvvmarchitecture.ui.validation.ValidationFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
 @LayoutId(R.layout.activity_main)
@@ -45,5 +43,19 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                 }
             }
         }
+//        btn.onAvoidDoubleClick {
+//            showLocationAlertDialog {
+//                title = getString(R.string.alert_title)
+//                message = getString(R.string.alert_message)
+//                positiveTitle = getString(R.string.alert_positive_title)
+//                negativeTitle = getString(R.string.alert_negative_title)
+//                setOnPositiveListener {
+//                    toast("Positive")
+//                }
+//                setOnNegativeListener {
+//                    toast("Negative")
+//                }
+//            }
+//        }
     }
 }

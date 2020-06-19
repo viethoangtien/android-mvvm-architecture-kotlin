@@ -8,9 +8,9 @@ import com.soict.hoangviet.mvvmarchitecture.R
 
 abstract class BaseDialog(val context: Context) {
     abstract val dialogView: Int
-    protected lateinit var dialog: Dialog
-    open var isCancelable: Boolean = true
-    open var isBackgroundTransparent: Boolean = false
+    lateinit var dialog: Dialog
+    var isCancelable: Boolean = true
+    var isBackgroundTransparent: Boolean = false
     private var onCancelListener: (() -> Unit)? = null
 
     open fun create(): Dialog {
