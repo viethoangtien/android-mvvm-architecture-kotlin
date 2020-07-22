@@ -33,7 +33,7 @@ abstract class BaseDialog(val context: Context) {
         return dialog
     }
 
-    open fun setOnCancelListener(func: () -> Unit) {
+    fun setOnCancelListener(func: () -> Unit) {
         onCancelListener = func
     }
 
