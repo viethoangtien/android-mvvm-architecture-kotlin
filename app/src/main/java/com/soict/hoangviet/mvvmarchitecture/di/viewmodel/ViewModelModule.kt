@@ -2,6 +2,7 @@ package com.soict.hoangviet.mvvmarchitecture.di.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.soict.hoangviet.mvvmarchitecture.ui.loadmore.LoadMoreViewModel
 import com.soict.hoangviet.mvvmarchitecture.ui.main.MainViewModel
 import com.soict.hoangviet.mvvmarchitecture.ui.notification.NotificationViewModel
 import com.soict.hoangviet.mvvmarchitecture.ui.validation.ValidationViewModel
@@ -28,4 +29,9 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(ValidationViewModel::class)
     internal abstract fun bindValidationViewModel(viewModel: ValidationViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(LoadMoreViewModel::class)
+    internal abstract fun bindLoadMoreViewModel(viewModel: LoadMoreViewModel): ViewModel
 }

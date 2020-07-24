@@ -1,4 +1,4 @@
-package com.soict.hoangviet.mvvmarchitecture.adapter
+package com.soict.hoangviet.mvvmarchitecture.base.adapter
 
 import android.content.Context
 import android.util.AttributeSet
@@ -136,6 +136,10 @@ class BaseRecyclerView : RelativeLayout {
 
     fun setOnLoadingMoreListener(loadingMoreListener: () -> Unit) {
         mAdapter?.setLoadingMoreListener(loadingMoreListener)
+    }
+
+    fun setOnRetryLoadingMoreListener(retryLoadingMoreListener: () -> Unit) {
+        mAdapter?.setOnRetryLoadingMoreListener(retryLoadingMoreListener)
     }
 
     fun setOnItemClickListener(onItemClickListener: (RecyclerViewAdapter<*>, RecyclerView.ViewHolder?, Int, Int) -> Unit) {

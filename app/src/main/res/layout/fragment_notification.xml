@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.soict.hoangviet.mvvmarchitecture.adapter.BaseRecyclerView
+        <com.soict.hoangviet.mvvmarchitecture.base.adapter.BaseRecyclerView
             android:id="@+id/brv_notification"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />

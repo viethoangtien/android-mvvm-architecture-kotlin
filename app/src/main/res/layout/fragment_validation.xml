@@ -62,6 +62,7 @@
                 android:layout_marginTop="8dp"
                 android:onClick="@{()-> validationViewModel.onLoginClicked()}"
                 android:text="LOGIN" />
+
         </LinearLayout>
 
     </ScrollView>

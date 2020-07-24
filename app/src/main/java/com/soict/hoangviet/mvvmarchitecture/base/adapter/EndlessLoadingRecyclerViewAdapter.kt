@@ -9,8 +9,13 @@ import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.soict.hoangviet.baseproject.extension.gone
 import com.soict.hoangviet.baseproject.extension.inflate
+import com.soict.hoangviet.baseproject.extension.onAvoidDoubleClick
+import com.soict.hoangviet.baseproject.extension.visible
 import com.soict.hoangviet.mvvmarchitecture.R
+import com.soict.hoangviet.mvvmarchitecture.data.local.LoadMoreData
+import com.soict.hoangviet.mvvmarchitecture.databinding.LayoutLoadMoreBinding
 
 abstract class EndlessLoadingRecyclerViewAdapter<T : ViewDataBinding>(
     context: Context,
@@ -19,12 +24,17 @@ abstract class EndlessLoadingRecyclerViewAdapter<T : ViewDataBinding>(
     RecyclerViewAdapter<T>(context, enableSelectedMode) {
 
     private var loadingMoreListener: (() -> Unit)? = null
+    private var retryLoadingMoreListener: (() -> Unit)? = null
     private var disableLoadMore = false
     protected var isLoading = false
 
     fun setLoadingMoreListener(loadingMoreListener: () -> Unit) {
         this.loadingMoreListener = loadingMoreListener
         enableLoadingMore(loadingMoreListener != null)
+    }
+
+    fun setOnRetryLoadingMoreListener(func: () -> Unit) {
+        retryLoadingMoreListener = func
     }
 
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
@@ -68,12 +78,14 @@ abstract class EndlessLoadingRecyclerViewAdapter<T : ViewDataBinding>(
         this.isLoading = isLoading
     }
 
+    fun getIsLoading() = isLoading
+
     fun enableLoadingMore(enable: Boolean) {
         this.disableLoadMore = !enable
     }
 
     fun showLoadingItem(isScroll: Boolean) {
-        addModel(null, VIEW_TYPE_LOADING, isScroll)
+        addModel(LoadMoreData(), VIEW_TYPE_LOADING, isScroll)
     }
 
     fun hideLoadingItem() {
@@ -90,7 +102,14 @@ abstract class EndlessLoadingRecyclerViewAdapter<T : ViewDataBinding>(
     ): RecyclerView.ViewHolder? {
         return when (viewType) {
             VIEW_TYPE_LOADING -> {
-                LoadingViewHolder(parent.inflate(R.layout.layout_load_more))
+                LoadingViewHolder(
+                    DataBindingUtil.inflate(
+                        inflater,
+                        R.layout.layout_load_more,
+                        parent,
+                        false
+                    ), retryLoadingMoreListener
+                )
             }
             else -> {
                 super.solvedOnCreateViewHolder(binding, parent, viewType)!!
@@ -105,7 +124,7 @@ abstract class EndlessLoadingRecyclerViewAdapter<T : ViewDataBinding>(
     ) {
         when (viewType) {
             VIEW_TYPE_LOADING -> {
-//                bindLoadingViewHolder(viewHolder as LoadingViewHolder, position)
+                bindLoadingViewHolder(viewHolder as LoadingViewHolder, position)
             }
 
             else -> {
@@ -114,11 +133,30 @@ abstract class EndlessLoadingRecyclerViewAdapter<T : ViewDataBinding>(
         }
     }
 
-    interface OnLoadingMoreListener {
-        fun onLoadMore()
+    private fun bindLoadingViewHolder(
+        loadingViewHolder: LoadingViewHolder,
+        position: Int
+    ) {
+        loadingViewHolder.bind(getItem(position, LoadMoreData::class.java)!!)
     }
 
-    class LoadingViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
+    class LoadingViewHolder(
+        val binding: LayoutLoadMoreBinding,
+        retryLoadingMoreListener: (() -> Unit)? = null
+    ) :
+        RecyclerView.ViewHolder(binding.root) {
+        init {
+            binding.btnRetry.onAvoidDoubleClick {
+                binding.btnRetry.gone()
+                binding.progressBar.visible()
+                retryLoadingMoreListener?.invoke()
+            }
+        }
+
+        fun bind(data: LoadMoreData) {
+            binding.loadMoreData = data
+        }
+    }
 
     companion object {
         const val VIEW_TYPE_LOADING = -1

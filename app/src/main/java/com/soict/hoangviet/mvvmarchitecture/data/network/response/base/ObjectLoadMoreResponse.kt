@@ -24,16 +24,29 @@ class ObjectLoadMoreResponse<T> : ObjectResponse<T> {
     }
 
     companion object {
-        fun <T> loading(): ObjectLoadMoreResponse<T> = ObjectLoadMoreResponse(Define.ResponseStatus.LOADING, data = null, error = null)
+        fun <T> loading(): ObjectLoadMoreResponse<T> =
+            ObjectLoadMoreResponse(
+                Define.ResponseStatus.LOADING,
+                data = null,
+                error = null
+            )
 
         fun <T> success(
             data: T?,
-            isRefresh: Boolean,
-            isLoadingMore: Boolean
+            isRefresh: Boolean = false,
+            isLoadingMore: Boolean = false
         ): ObjectLoadMoreResponse<T> =
-            ObjectLoadMoreResponse(data, isRefresh, isLoadingMore)
+            ObjectLoadMoreResponse(
+                data,
+                isRefresh,
+                isLoadingMore
+            )
 
         fun <T> error(throwable: Throwable): ObjectLoadMoreResponse<T> =
-            ObjectLoadMoreResponse(Define.ResponseStatus.ERROR, null, throwable)
+            ObjectLoadMoreResponse(
+                Define.ResponseStatus.ERROR,
+                null,
+                throwable
+            )
     }
 }

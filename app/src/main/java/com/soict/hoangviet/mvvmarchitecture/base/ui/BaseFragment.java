@@ -26,6 +26,7 @@ import com.soict.hoangviet.baseproject.data.network.response.ObjectResponse;
 import com.soict.hoangviet.baseproject.utils.Define;
 import com.soict.hoangviet.mvvmarchitecture.custom.ViewController;
 import com.soict.hoangviet.mvvmarchitecture.data.network.response.BaseError;
+import com.soict.hoangviet.mvvmarchitecture.data.network.response.ListLoadMoreResponse;
 import com.soict.hoangviet.mvvmarchitecture.data.network.response.ObjectLoadMoreResponse;
 
 import java.io.IOException;
@@ -159,6 +160,21 @@ public abstract class BaseFragment<T extends ViewDataBinding> extends DaggerFrag
         }
     }
 
+    protected <U> void handleListLoadMoreResponse(ListLoadMoreResponse<U> response) {
+        switch (response.getType()) {
+            case Define.ResponseStatus.LOADING:
+                showLoading();
+                break;
+            case Define.ResponseStatus.SUCCESS:
+                hideLoading();
+                getListResponse(response.getData().getData(), response.isRefresh(), response.isLoadingMore());
+                break;
+            case Define.ResponseStatus.ERROR:
+                hideLoading();
+                handleNetworkError(response.getError());
+        }
+    }
+
     public ViewController getViewController() {
         if (mViewController == null) {
             return ((BaseActivity) getActivity()).getViewController();
@@ -196,7 +212,7 @@ public abstract class BaseFragment<T extends ViewDataBinding> extends DaggerFrag
     @Nullable
     public void handleNetworkError(Throwable throwable) {
         ApiError apiError;
-        Boolean isShowToast = true;
+        Boolean isShowToast = false;
         if (throwable instanceof NetworkConnectionInterceptor.NoConnectivityException) {
             apiError = new ApiError(throwable.getMessage());
         } else if (throwable instanceof HttpException) {

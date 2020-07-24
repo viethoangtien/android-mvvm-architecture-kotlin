@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="constructionResponse"
+            type="com.soict.hoangviet.mvvmarchitecture.data.network.response.ConstructionResponse" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="true">
+
+        <TextView
+            android:id="@+id/tv_kouji"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/content_padding_16_dp"
+            android:text="@{constructionResponse.name}"
+            android:textColor="@color/md_black_1000"
+            android:textSize="@dimen/textsize_22_sp"
+            tools:text="Hoang Tien Viet" />
+
+        <View
+            style="@style/Divider"
+            android:layout_below="@id/tv_kouji" />
+    </RelativeLayout>
+</layout>

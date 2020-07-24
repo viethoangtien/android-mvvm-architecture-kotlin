@@ -1,5 +1,6 @@
 package com.soict.hoangviet.mvvmarchitecture.di.builder
 
+import com.soict.hoangviet.mvvmarchitecture.ui.loadmore.LoadMoreFragment
 import com.soict.hoangviet.mvvmarchitecture.ui.notification.NotificationFragment
 import com.soict.hoangviet.mvvmarchitecture.ui.validation.ValidationFragment
 import dagger.Module
@@ -12,4 +13,7 @@ abstract class FragmentBuilder {
 
     @ContributesAndroidInjector()
     abstract fun bindValidationFragment(): ValidationFragment
+
+    @ContributesAndroidInjector()
+    abstract fun bindLoadMoreFragment(): LoadMoreFragment
 }

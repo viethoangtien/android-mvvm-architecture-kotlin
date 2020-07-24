@@ -20,9 +20,13 @@ open class ListResponse<T>(
         fun <T> error(throwable: Throwable): ListResponse<T> =
             ListResponse(Define.ResponseStatus.ERROR, null, throwable)
     }
+}
 
-    fun setLoadingMore(isRefresh: Boolean, isLoadingMore: Boolean) {
-        this.isRefresh = isRefresh
-        this.isLoadingMore = isLoadingMore
-    }
+fun <T> ListResponse<T>.setLoadingMore(
+    isRefresh: Boolean = false,
+    isLoadingMore: Boolean = false
+): ListResponse<T> {
+    this.isRefresh = isRefresh
+    this.isLoadingMore = isLoadingMore
+    return this
 }
