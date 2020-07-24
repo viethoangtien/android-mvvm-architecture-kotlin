@@ -95,6 +95,13 @@ class BaseRecyclerView : RelativeLayout {
         rcv_data.layoutManager = layoutManager
     }
 
+    fun setListReserveLayoutManager(orientation: Int){
+        val layoutManager = LinearLayoutManager(context, orientation, false)
+//        layoutManager.stackFromEnd = true
+        layoutManager.reverseLayout = true
+        rcv_data.layoutManager = layoutManager
+    }
+
     fun setGridLayoutManager(spanCount: Int) {
         val layoutManager = GridLayoutManager(context, spanCount)
         layoutManager.spanSizeLookup = object : SpanSizeLookup() {

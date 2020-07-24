@@ -35,7 +35,7 @@ class LoadMoreFragment : BaseFragment<FragmentEndLoadMoreBinding>() {
     private fun initAdapter() {
         mKoujiAdapter = KoujiAdapter(requireContext(), false)
         brv_data.setAdapter(mKoujiAdapter)
-        brv_data.setListLayoutManager(RecyclerView.VERTICAL)
+        brv_data.setListReserveLayoutManager(RecyclerView.VERTICAL)
         brv_data.setOnRefreshListener {
             loadMoreViewModel.getConstruction(isRefresh = true)
         }
@@ -46,6 +46,7 @@ class LoadMoreFragment : BaseFragment<FragmentEndLoadMoreBinding>() {
         brv_data.setOnRetryLoadingMoreListener {
             loadMoreViewModel.getConstruction(isRefresh = false)
         }
+        brv_data.setEnableRefresh(false)
     }
 
     override fun initData() {

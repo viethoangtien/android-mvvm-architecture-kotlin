@@ -47,7 +47,6 @@ abstract class EndlessLoadingRecyclerViewAdapter<T : ViewDataBinding>(
                     RecyclerView.SCROLL_STATE_IDLE -> {
                         var firstVisibleItemPosition = 0
                         var lastVisibleItemPosition = 0
-
                         if (disableLoadMore || isLoading) {
                             return
                         }
