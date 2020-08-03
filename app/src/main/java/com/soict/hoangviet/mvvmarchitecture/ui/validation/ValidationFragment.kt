@@ -43,6 +43,7 @@ class ValidationFragment : BaseFragment<FragmentValidationBinding>() {
         })
         Pair(til_email, edt_email).addTextChangeListener()
         Pair(til_password, edt_password).addTextChangeListener()
+        validationViewModel.mLiveDataAwareLifecycle.registerLifeCycle(lifecycle)
     }
 
 

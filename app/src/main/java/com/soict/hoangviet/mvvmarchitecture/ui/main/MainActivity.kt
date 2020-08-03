@@ -21,7 +21,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     }
 
     override fun initView() {
-        viewController.addFragment(LoadMoreFragment::class.java, null)
+        viewController.addFragment(ValidationFragment::class.java, null)
     }
 
     override fun initData() {

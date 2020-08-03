@@ -15,15 +15,23 @@ class ValidationViewModel @Inject constructor(val context: Context) : BaseViewMo
     val email = MutableLiveData<String>()
     val password = MutableLiveData<String>()
     val successfulLogin = MutableLiveData<ObjectResponse<String>>()
+    val mLiveDataAwareLifecycle = LiveDataAwareLifecycle<String>()
 
     fun onLoginClicked() {
         when {
             email.value.toString().isNullOrEmpty() -> {
-                successfulLogin.value = ObjectResponse.error(BaseError("Please enter email", 1, isShowToast = true))
+                successfulLogin.value =
+                    ObjectResponse.error(BaseError("Please enter email", 1, isShowToast = true))
             }
             !email.value.toString().isValidateEmail() -> {
                 successfulLogin.value =
-                    ObjectResponse.error(BaseError("Please enter valid email", 1, isShowToast = true))
+                    ObjectResponse.error(
+                        BaseError(
+                            "Please enter valid email",
+                            1,
+                            isShowToast = true
+                        )
+                    )
             }
             password.value.toString().isNullOrEmpty() -> {
                 successfulLogin.value = ObjectResponse.error(BaseError("Please enter password", 2))
