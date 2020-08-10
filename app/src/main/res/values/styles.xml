@@ -1,13 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <declare-styleable name="BaseRecyclerView">
-        <attr name="brv_padding" format="dimension" />
-        <attr name="brv_background" format="integer|reference" />
-        <attr name="brv_padding_start" format="dimension" />
-        <attr name="brv_padding_end" format="dimension" />
-        <attr name="brv_padding_top" format="dimension" />
-        <attr name="brv_padding_bottom" format="dimension" />
-        <attr name="brv_enable_refresh" format="boolean" />
-        <attr name="brv_text_no_result" format="string|reference" />
-    </declare-styleable>
+    <style name="DatePickerTheme" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorAccent">@color/colorPrimary</item>
+    </style>
 </resources>

@@ -29,7 +29,7 @@ abstract class BaseDialogFragment(
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(javaClass.getAnnotation(LayoutId::class.java)?.value ?: throw Exception("Doesn't provide layout id for dialog fragment"), container, false)
+        val view = inflater.inflate(javaClass.getAnnotation(LayoutId::class.java)?.value ?: throw Exception("Haven't provided layout id for dialog fragment"), container, false)
         if (!isStyleFullScreen) dialog?.window?.setBackgroundDrawableResource(R.drawable.bg_dialog)
         dialog?.window?.requestFeature(Window.FEATURE_NO_TITLE)
         isCancelable = cancelable
