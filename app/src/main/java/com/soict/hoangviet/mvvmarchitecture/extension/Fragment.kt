@@ -35,3 +35,12 @@ fun Fragment.rate() = requireActivity().rate()
 fun Fragment.hideSoftKeyboard() {
     activity?.hideSoftKeyboard()
 }
+
+fun Fragment.hideFragmentByTag(tag: String) {
+    val ft = childFragmentManager.beginTransaction()
+    val frag = childFragmentManager.findFragmentByTag(tag)
+    frag?.let {
+        ft.remove(it)
+    }
+    ft.addToBackStack(null)
+}

@@ -7,7 +7,9 @@ import android.view.ViewGroup
 import android.view.Window
 import androidx.fragment.app.DialogFragment
 import com.beetech.productmanagement.di.annotation.LayoutId
+import com.soict.hoangviet.baseproject.extension.put
 import com.soict.hoangviet.mvvmarchitecture.R
+import java.util.HashMap
 
 abstract class BaseDialogFragment(
     val cancelable: Boolean = true,
@@ -39,6 +41,18 @@ abstract class BaseDialogFragment(
         super.onViewCreated(view, savedInstanceState)
         initViews()
         initListeners()
+    }
+
+    open fun setData(data: HashMap<String, Any>) {
+        if (data.isEmpty()) {
+            arguments = Bundle()
+            return
+        }
+        val bundle = Bundle()
+        for ((key, value) in data) {
+            bundle.put(key, value)
+        }
+        arguments = bundle
     }
 
     abstract fun initListeners()

@@ -6,7 +6,8 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import com.soict.hoangviet.mvvmarchitecture.R
 
-abstract class BaseDialog(val context: Context) {
+abstract class
+BaseDialog(val context: Context) {
     abstract val dialogView: Int
     lateinit var dialog: Dialog
     var isCancelable: Boolean = true
